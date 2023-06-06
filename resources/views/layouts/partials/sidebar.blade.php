@@ -66,14 +66,7 @@
                         <li class="nk-menu-item">
                             <a href="{{ route('roles.index') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-policy-fill"></em></span>
-                                <span class="nk-menu-text">Roles</span>
-                            </a>
-                        </li><!-- .nk-menu-item -->
-
-                        <li class="nk-menu-item">
-                            <a href="{{ route('permissions.index') }}" class="nk-menu-link">
-                                <span class="nk-menu-icon"><em class="icon ni ni-note-add-fill-c"></em></span>
-                                <span class="nk-menu-text">Permissions</span>
+                                <span class="nk-menu-text">Roles & Permissions</span>
                             </a>
                         </li><!-- .nk-menu-item -->
 

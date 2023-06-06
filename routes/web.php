@@ -118,14 +118,16 @@ Route::middleware(['auth'])->group(function () {
         //Document Upload
         Route::post('/upload/document/{personnel_id}', [PersonnelController::class, 'upload'])->name('upload.document');
         Route::post('/personel-documents/documents/delete-multiple', [PersonnelController::class, 'deleteMultiple'])->name('documents.delete-multiple');
-        Route::post('/personnel/{personnelId}/documents', [PersonnelController::class, 'store'])->name('documents.store');
+        Route::post('/personnel/{personnelId}/documents', [PersonnelController::class, 'storeDocuments'])->name('documents.upload');
         Route::delete('/personnel-profile/documents/delete/{id}', [PersonnelController::class, 'deleteDocument'])->name('documents.delete');
         Route::get('/personnel-profile/documents/{id}/download', [PersonnelController::class, 'downloadDocument'])->name('documents.download');
         Route::get('/personnel-profile/documents/{id}/preview', [PersonnelController::class, 'previewDocument'])->name('documents.preview');
         //change pass
         Route::get('personnel/{id}/change-password', [PersonnelController::class, 'changePassForm'])->name('change-password');
         Route::post('personnel/{id}/change-password', [PersonnelController::class, 'changePass'])->name('view.personnel.change-password');
-        Route::get('/view/personnel/account-setting', [PersonnelController::class, 'accountSetting'])->name('view.personnel.account-setting');
+        //change email
+        Route::get('/view/personnel/{id}/account-setting', [PersonnelController::class, 'accountSetting'])->name('view.personnel.account-setting');
+        Route::post('/view/personnel/{id}/update-email', [PersonnelController::class, 'updateEmail'])->name('view.update-email');
 
         Route::get('/personnel-profile/{personnel}/view', [PersonnelProfileController::class, 'showProfile'])->name('view.profile');
         Route::get('/personnel-profile/{id}/edit', [PersonnelProfileController::class, 'edit'])->name('edit.personnel');

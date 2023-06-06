@@ -7,19 +7,33 @@ use App\Models\Personnel;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class PersonnelController extends Controller
 {
     //personnel lists
-    public function index()
+    public function index(Request $request)
     {
         $totalUsers = User::count();
         $personnelCount = Personnel::count();
         $personnels = Personnel::with('user')->get();
+        $personnelID = $request->input('personnel_id');
 
-        return view('admin.pages.personnel.personnel-list', compact('totalUsers','personnelCount','personnels'));
+        $mobile_nos = [];
+        if($personnelID != null) {
+            foreach($personnelID as $index => $personnel) {
+                $mobile_no = DB::table('personnels')->where('id', '=', $personnel)->pluck('mobile_no')->first();
+                if ($mobile_no) {
+                    $mobile_nos[] = $mobile_no;
+                }
+            }
+        }
+
+        $collectionOfMobileNos = implode(', ', $mobile_nos);
+
+        return view('admin.pages.personnel.personnel-list', compact('totalUsers','personnelCount','personnels', 'personnelID', 'collectionOfMobileNos'));
     }
 
     public function getActive()
@@ -53,7 +67,7 @@ class PersonnelController extends Controller
         $totalLatestDocuments = $latestIssuedDocuments->count();
 
 
-        return view('admin.pages.personnel.view-profile', compact('personnel', 'latestIssuedDocuments', 'totalDocuments', 'totalLatestDocuments'));
+        return view('admin.pages.personnel.view-profile', compact('personnel', 'latestIssuedDocuments','previousYear', 'totalDocuments', 'totalLatestDocuments'));
     }
 
     //requirements upload
@@ -144,7 +158,7 @@ class PersonnelController extends Controller
         return view('admin.pages.personnel.view-documents', compact('personnel', 'documents', 'totalDocuments'));
     }
 
-    public function store(Request $request)
+    public function storeDocuments(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:pdf,jpeg,jpg,png|max:2048',
@@ -172,6 +186,7 @@ class PersonnelController extends Controller
         // Perform any additional actions if needed
 
         return redirect()->back()->with('success', 'Document added successfully.');
+
     }
 
     public function changePassForm($id)
@@ -187,7 +202,7 @@ class PersonnelController extends Controller
 
         $request->validate([
             'current_password' => 'required',
-            'new_password' => 'required|min:8|confirmed|different:current_password|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/',
+            'new_password' => 'required|min:8',
             'confirm_password' => 'required|same:new_password',
         ]);
 
@@ -204,9 +219,22 @@ class PersonnelController extends Controller
     }
 
 
-    public function accountSetting()
-
+    public function accountSetting($id)
     {
-        return view('admin.pages.personnel.account-setting');
+        $personnel = Personnel::findOrFail($id);
+        $email = $personnel->user->email; // Assuming the email is stored in the "email" column of the "users" table
+        $password = $personnel->user->password;
+        return view('admin.pages.personnel.account-setting', compact('personnel', 'email', 'password'));
+    }
+
+
+    public function updateEmail(Request $request, $id)
+    {
+        $personnel = User::findOrFail($id);
+        $personnel->email = $request->input('email');
+        $personnel->save();
+
+        // Redirect back or to a specific route
+        return redirect()->back()->with('success', 'Email updated successfully.');
     }
 }

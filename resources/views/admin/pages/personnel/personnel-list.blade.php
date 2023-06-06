@@ -41,7 +41,57 @@
             <div class="card-inner">
                 <!-- Add a container for the buttons above the table -->
                 <div id="tableButtons" class="mb-3" style="display: none;">
-                    <button id="messageAllButton" class="btn btn-primary">Message All</button>
+                    <button id="messageAllButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Message">Message All</button>
+                </div>
+                {{-- modal --}}
+                 <!-- Modal Form -->
+                <div class="modal fade" id="modalForm">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Send SMS</h5>
+                                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <em class="icon ni ni-cross"></em>
+                                </a>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('send.sms') }}" method="POST">
+                                    @csrf
+                                    <div class="row gy-4">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="mobile_no">Phone Number w/ Country Code</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" placeholder="Phone Number"
+                                                        name="mobile_no" value="{{ request()->get('mobile_no') }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="form-label" for="message">Textarea</label>
+                                                <div class="form-control-wrap">
+                                                    <textarea class="form-control no-resize" id="default-textarea"
+                                                        name="message"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 d-flex">
+                                        <a href="{{ route('personnel-list') }}">
+                                            <div class="form-group mt-4">
+                                                <button type="button"  class="btn btn-white">Cancel</button>
+                                            </div>
+                                        </a>
+                                        <div class="form-group mt-4">
+                                            <button type="submit" class="btn btn-primary">Send</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <table id="personnelTable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                     <thead>
@@ -127,19 +177,19 @@
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <ul class="link-list-opt no-bdr">
                                                     @if($personnel->status === 'Active')
-                                                    <li>
-                                                        <a href="{{ route('change.personnel.status', ['id' => $personnel->id, 'status' => 'Inactive']) }}">
-                                                            <em class="icon ni ni-cross-circle-fill"></em>
-                                                            <span>Change to Inactive</span>
-                                                        </a>
-                                                    </li>
+                                                        <li>
+                                                            <a href="{{ route('change.personnel.status', ['id' => $personnel->id, 'status' => 'Inactive']) }}">
+                                                                <em class="icon ni ni-cross-circle-fill"></em>
+                                                                <span>Change to Inactive</span>
+                                                            </a>
+                                                        </li>
                                                     @elseif($personnel->status === 'Inactive')
-                                                    <li>
-                                                        <a href="{{ route('change.personnel.status', ['id' => $personnel->id, 'status' => 'Active']) }}">
-                                                            <em class="icon ni ni-check-circle-fill"></em>
-                                                            <span>Change to Active</span>
-                                                        </a>
-                                                    </li>
+                                                        <li>
+                                                            <a href="{{ route('change.personnel.status', ['id' => $personnel->id, 'status' => 'Active']) }}">
+                                                                <em class="icon ni ni-check-circle-fill"></em>
+                                                                <span>Change to Active</span>
+                                                            </a>
+                                                        </li>
                                                     @endif
                                                     <li>
                                                         <a href="{{ route('view.personnel.profile',['id' => $personnel->id]) }}">
@@ -151,12 +201,6 @@
                                                         <a href="{{ route('edit.personnel', $personnel->id) }}">
                                                             <em class="icon ni ni-edit"></em>
                                                             <span>Update Details</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <em class="icon ni ni-account-setting-alt"></em>
-                                                            <span>Account Settings</span>
                                                         </a>
                                                     </li>
                                                     <li class="divider"></li>
@@ -189,7 +233,6 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
     $(document).ready(function() {
         // When any checkbox is clicked
@@ -269,3 +312,5 @@
 
 
 @endsection
+
+

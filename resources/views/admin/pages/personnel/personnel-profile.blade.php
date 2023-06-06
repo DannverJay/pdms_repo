@@ -16,8 +16,8 @@
                             </div>
                         </div>
                         <div class="nk-block-head-content">
-                            <a href="{{ route('personnel-list') }}" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a>
-                            <a href="{{ route('personnel-list') }}" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-arrow-left"></em></a>
+                            <a href="{{ route('view.personnel.profile', ['id' => $personnel->id]) }}" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a>
+                            <a href="{{ route('view.personnel.profile', ['id' => $personnel->id]) }}" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-arrow-left"></em></a>
                         </div>
                     </div>
                 </div><!-- .nk-block-head -->
@@ -85,8 +85,8 @@
                                                         <a href="{{ route('edit.personnel', $personnel->id) }}">
                                                             <button class="btn btn-primary btn-sm d-block d-md-inline-block">
                                                                 <em class="icon ni ni-edit"></em>
-                                                                <span class="d-none d-md-inline-block">Edit</span>
-                                                                <span class="d-md-none"><em class="icon ni ni-plus"></em></span>
+                                                                {{-- <span class="d-none d-md-inline-block">Edit</span> --}}
+                                                                {{-- <span class="d-md-none"><em class="icon ni ni-plus"></em></span> --}}
                                                             </button>
                                                         </a>
                                                     </div>

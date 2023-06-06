@@ -14,7 +14,7 @@ class PermissionController extends Controller
         $permissions = Permission::all();
         $roles = Role::all();
 
-        return view('admin.pages.permissions.index', compact('permissions', 'roles'));
+        return view('admin.pages.roles.index', compact('permissions', 'roles'));
     }
 
     public function store(Request $request)
@@ -23,7 +23,7 @@ class PermissionController extends Controller
 
        Permission::create($validated);
 
-       return to_route('permissions.index');
+       return to_route('roles.index');
     }
 
     public function update(Request $request, Permission $permission)
@@ -31,7 +31,7 @@ class PermissionController extends Controller
         $validated = $request->validate(['name' => ['required']]);
         $permission->update($validated);
 
-        return to_route('permissions.index');
+        return to_route('roles.index');
     }
 
     public function destroy(Permission $permission) {

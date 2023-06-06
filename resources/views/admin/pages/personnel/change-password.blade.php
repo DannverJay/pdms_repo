@@ -8,11 +8,11 @@
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between g-3">
                         <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Users / <strong class="text-primary small">Abu Bin Ishtiyak</strong></h3>
+                            <h3 class="nk-block-title page-title">Personnel / <strong class="text-primary small">{{ $personnel->first_name }} {{ $personnel->last_name }}</strong></h3>
                             <div class="nk-block-des text-soft">
                                 <ul class="list-inline">
-                                    <li>User ID: <span class="text-base">UD003054</span></li>
-                                    <li>Last Login: <span class="text-base">15 Feb, 2019 01:02 PM</span></li>
+                                    <li>Personnel ID: <span class="text-base">{{ $personnel->id }}</span></li>
+                                    <li>Last Login: <span class="text-base">{{ $personnel->created_at }}</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                                         <a class="nav-link" href="{{ route('change-password', ['id' => $personnel->id]) }}"><em class="icon ni ni-shield-star"></em><span>Change Password</span></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('view.personnel.account-setting') }}"><em class="icon ni ni-setting-fill"></em><span>Account Setting</span></a>
+                                        <a class="nav-link" href="{{ route('view.personnel.account-setting', ['id' => $personnel->id]) }}"><em class="icon ni ni-setting-fill"></em><span>Account Setting</span></a>
                                     </li>
                                     {{-- <li class="nav-item nav-item-trigger d-xxl-none">
                                         <a href="#" class="toggle btn btn-icon btn-trigger" data-target="userAside"><em class="icon ni ni-user-list-fill"></em></a>
@@ -55,7 +55,7 @@
                                                     {{ session('success') }}
                                                 </div>
                                             @elseif (session('danger'))
-                                                <div class="alert alert-success">
+                                                <div class="alert alert-danger">
                                                     {{ session('danger') }}
                                                 </div>
                                             @endif
@@ -70,6 +70,9 @@
                                                     <div class="form-control-wrap">
                                                         <input type="password" class="form-control" id="current-password" name="current_password" required>
                                                     </div>
+                                                    @error('current_password')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>
@@ -85,6 +88,9 @@
                                                     <div class="form-control-wrap">
                                                         <input type="password" class="form-control" id="new-password" name="new_password" required>
                                                     </div>
+                                                    @error('new_password')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>
@@ -100,6 +106,9 @@
                                                     <div class="form-control-wrap">
                                                         <input type="password" class="form-control" id="confirm-password" name="confirm_password" required>
                                                     </div>
+                                                    @error('confirm_password')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>

@@ -142,13 +142,8 @@
                                                     <ul class="link-list-opt no-bdr">
                                                         <li><a href="{{ route('users.show', $user) }}"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
                                                         <li class="divider"></li>
-                                                        <li><a href="#"><em class="icon ni ni-shield-star"></em><span>Reset Pass</span></a></li>
+                                                        <li><a href="#"><em class="icon ni ni-shield-star"></em><span>Change Pass</span></a></li>
                                                         {{-- <li><a href="#"><em class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a></li> --}}
-                                                        <li>
-                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteUser"><em class="icon ni ni-trash"></em><span>Delete</span></a>
-
-                                                             <!-- Modal Alert 2 -->
-                                                        </li>
                                                     </ul>
 
                                                 </div>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class SMSController extends Controller
 {
+
     public function send(Request $request)
 
     {
