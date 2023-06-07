@@ -45,10 +45,10 @@
                                             <span class="d-none d-md-inline-block">Upload</span>
                                             <span class="d-md-none"><em class="icon ni ni-plus"></em></span>
                                         </button>
-                                        <a href="#" class="btn btn-sm btn-white btn-dim btn-outline-light" aria-expanded="false">
+                                        {{-- <a href="#" class="btn btn-sm btn-white btn-dim btn-outline-light" aria-expanded="false">
                                             <em class="d-none d-sm-inline icon ni ni-filter-alt"></em>
                                             <span>Latest</span>
-                                        </a>
+                                        </a> --}}
                                         <div class="modal fade" tabindex="-1" id="Upload">
                                             <div class="modal-dialog" role="document">
                                               <div class="modal-content">
@@ -214,5 +214,5 @@
       }
     });
   </script>
-  
+
 @endsection

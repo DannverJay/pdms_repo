@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Personnel;
 
 class User extends Authenticatable
 {
@@ -45,6 +46,28 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            $fullName = $user->name;
+            $nameParts = explode(' ', $fullName, 2); // Split into first name and last name
+
+            $personnel = new Personnel();
+            $personnel->first_name = $nameParts[0] ?? ''; // First name
+            $personnel->last_name = $nameParts[1] ?? ''; // Last name
+            $personnel->ranks = 'Patrolman';
+            $personnel->unit = 'PRO3';
+            $personnel->sub_unit = 'Pampanga PPO';
+            $personnel->station = 'Apalit Municipal Police Station';
+            $personnel->status = 'Active';
+            $personnel->user()->associate($user);
+            $personnel->save();
+        });
+    }
 
     public function personnel(): HasOne
     {

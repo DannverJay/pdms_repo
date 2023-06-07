@@ -131,12 +131,6 @@
                                             </div>
                                             <div class="profile-ud-item">
                                                 <div class="profile-ud wider">
-                                                    <span class="profile-ud-label">Middle Name</span>
-                                                    <span class="profile-ud-value">{{ $personnel->middle_name }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="profile-ud-item">
-                                                <div class="profile-ud wider">
                                                     <span class="profile-ud-label">Last Name</span>
                                                     <span class="profile-ud-value">{{ $personnel->last_name }}</span>
                                                 </div>
@@ -189,12 +183,7 @@
                                                     <span class="profile-ud-value">{{ $personnel->mobile_no }}</span>
                                                 </div>
                                             </div>
-                                            <div class="profile-ud-item">
-                                                <div class="profile-ud wider">
-                                                    <span class="profile-ud-label">Telephone No.</span>
-                                                    <span class="profile-ud-value">{{ $personnel->tel_no }}</span>
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
 

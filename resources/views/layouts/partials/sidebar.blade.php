@@ -161,31 +161,12 @@
                         </ul><!-- .nk-menu-sub -->
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item">
-                        <a href="#" class="nk-menu-link">
+                        <a href="{{ route('support.faqs') }}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-help-fill"></em></span>
                             <span class="nk-menu-text">FAQs / Help </span>
                         </a>
                     </li><!-- .nk-menu-item -->
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-icon"><em class="icon ni ni-emails"></em></span>
-                            <span class="nk-menu-text">Contact Us</span>
-                        </a>
-                        <ul class="nk-menu-sub">
-                            <li class="nk-menu-item">
-                                <a href="html/_blank.html" class="nk-menu-link"><span class="nk-menu-text">Blank /
-                                        Startup</span></a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="html/pages/faqs.html" class="nk-menu-link"><span class="nk-menu-text">Faqs /
-                                        Help</span></a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="html/pages/terms-policy.html" class="nk-menu-link"><span
-                                        class="nk-menu-text">Terms / Policy</span></a>
-                            </li>
-                        </ul><!-- .nk-menu-sub -->
-                    </li><!-- .nk-menu-item -->
+
                 </ul><!-- .nk-menu -->
             </div><!-- .nk-sidebar-menu -->
         </div><!-- .nk-sidebar-content -->

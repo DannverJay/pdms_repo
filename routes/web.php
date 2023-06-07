@@ -9,6 +9,7 @@ use App\Http\Controllers\PersonnelProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShowIncompleteController;
 use App\Http\Controllers\SMSController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
 use App\Models\User;
@@ -191,6 +192,8 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
+    //Support
+    Route::get('/faqs', [SupportController::class, 'faq'])->name('support.faqs');
 });
 
 

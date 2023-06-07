@@ -21,14 +21,15 @@ class DocumentFactory extends Factory
         $fileType = $this->faker->randomElement(['pdf', 'jpeg', 'png']); // Random file extension
         $fileNameWithExtension = $fileName . '.' . $fileType;
 
-        $issuedDate = $this->faker->dateTimeBetween('-5 years', 'now')->format('Y');
+        $currentYear = date('Y');
+        $issuedYear = $this->faker->numberBetween(2020, $currentYear - 1);
 
         return [
             'personnel_id' => rand(1, 20),
             'file_name' => $fileNameWithExtension,
-            'document_type' =>fake()->randomElement( ['Personal Data Sheet', 'Diploma/TOR', 'Physical Fitness Test', 'Trainings', 'Specialized Trainings', 'SALN', 'KSS', 'PER', 'Reassignments', 'Eligibility']),
-            'issued_date' => $issuedDate,
-            'file_path' => fake() -> text(5),
+            'document_type' => $this->faker->randomElement(['Personal Data Sheet', 'Diploma/TOR', 'Physical Fitness Test', 'Trainings', 'Specialized Trainings', 'SALN', 'KSS', 'PER', 'Reassignments', 'Eligibility']),
+            'issued_date' => $issuedYear,
+            'file_path' => $this->faker->text(5),
         ];
     }
 }

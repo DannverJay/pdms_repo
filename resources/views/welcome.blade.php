@@ -38,7 +38,6 @@
 								<nav class="header-menu" data-content="mainNav">
 									<ul class="menu-list ms-lg-auto">
 										<li class="menu-item"><a href="#home" class="menu-link nav-link">Home</a></li>
-										<li class="menu-item"><a href="#team" class="menu-link nav-link">About Us</a></li>
 										<li class="menu-item"><a href="#reviews" class="menu-link nav-link">FAQ</a></li>
 									</ul>
 									<ul class="menu-btns">
@@ -87,7 +86,7 @@
 									<div class="header-caption">
 										<h1 class="header-title fw-medium">Apalit Personnel Document Management System</h1>
 										<div class="header-text">
-											<p>Dictum metus id fermentum efficitur. Praesent ultrices justo in feugiat condimentum.</p>
+											<p>This website is exclusive for Apalit Municipal Police Station only.</p>
 										</div>
 										<ul class="header-action btns-inline">
 											<li>
