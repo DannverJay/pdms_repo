@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
         })->name('dashboard');
 
         Route::get('/my-profile', [UserRoleController::class, 'index'])->name('view.my-info');
+        Route::post('/documents/upload', [UserRoleController::class, 'upload'])->name('my-documents.upload');
         //Fdamily
         Route::get('/my-family-members', [UserRoleController::class, 'showFamily'])->name('view.my-family');
         Route::post('/add-family-members', [UserRoleController::class, 'storeFamily'])->name('add.my-familyMember');
@@ -107,11 +108,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/personnel-list', [PersonnelController::class, 'index'])->name('personnel-list');
         Route::get('/personnel/active', [PersonnelController::class, 'getActive'])->name('personnel.active');
         Route::get('/personnel/inactive', [PersonnelController::class, 'getInactive'])->name('personnel.inactive');
+        Route::delete('/personnel/{id}', [PersonnelController::class, 'delete'])->name('personnel.delete');
 
 
         Route::get('/view/personnel-profile/{id}', [PersonnelController::class, 'view'])->name('view.personnel.profile');
         Route::get('/personnel/create', [App\Http\Controllers\PersonnelProfileController::class, 'create'])->name('personnel.create');
         Route::post('/personnel/store', [App\Http\Controllers\PersonnelProfileController::class, 'store'])->name('personnel.store');
+
 
         //View Document Page /Personnel Profile
         Route::get('/view/personnel-documents/{id}', [PersonnelController::class, 'viewDocuments'])->name('view.personnel.documents');
@@ -169,6 +172,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/users-manage/{user}/view-profile', [UserController::class, 'show'])->name('users.show');
 
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
+        Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.delete');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

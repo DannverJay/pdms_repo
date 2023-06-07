@@ -13,13 +13,15 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     public function showUser()
-
     {
         $userCount = User::count();
-        $users = User::with('roles')->whereNotIn('name', ['admin'])->get();
+
+        $users = User::with('roles')
+        ->whereNotIn('name', ['admin'])
+        ->orderBy('created_at', 'desc')
+        ->get();
+
         $roles = Role::get();
-
-
 
         return view('admin.pages.account-manager.user-lists', compact('userCount', 'users', 'roles'));
     }
@@ -64,35 +66,55 @@ public function store(Request $request)
 
     }
 
-
-    public function deleteUser(Request $request, $id)
+    public function destroy(Request $request, $id)
     {
+        // Find the user by ID
+        $user = User::findOrFail($id);
 
-    // Get the user being deleted
-    $user = User::find($id);
+        // Ensure the authenticated user can delete the user
+        if ($user->id === Auth::id()) {
+            // Prevent deleting the currently authenticated user
+            return redirect()->back()->with('error', 'You cannot delete your own account.');
+        }
 
-    // Check if the user exists
-    if (!$user) {
-        return redirect()->route('user.lists')->with('error', 'User not found.');
-    }
+        // Delete the user
+        $user->delete();
 
-    // Check if the entered password matches the password of the logged-in user
-    if (!Hash::check($request->password, Auth::user()->password)) {
-        return redirect()->back()->withErrors(['password' => 'Incorrect password.'])->withInput();
-    }
-
-    // Delete the user
-    $user->delete();
-
-    // Redirect back to user list with success message
-    return redirect()->route('user.lists')->with('success', 'User deleted successfully.');
-
+        return redirect()->route('user.lists')->with('success', 'User deleted successfully.');
     }
 
 
-    public function authorizePassword($password)
-    {
-        return $this->getAuthPassword($password);
-    }
+
+
+
+    // public function deleteUser(Request $request, $id)
+    // {
+
+    // // Get the user being deleted
+    // $user = User::find($id);
+
+    // // Check if the user exists
+    // if (!$user) {
+    //     return redirect()->route('user.lists')->with('error', 'User not found.');
+    // }
+
+    // // Check if the entered password matches the password of the logged-in user
+    // if (!Hash::check($request->password, Auth::user()->password)) {
+    //     return redirect()->back()->withErrors(['password' => 'Incorrect password.'])->withInput();
+    // }
+
+    // // Delete the user
+    // $user->delete();
+
+    // // Redirect back to user list with success message
+    // return redirect()->route('user.lists')->with('success', 'User deleted successfully.');
+
+    // }
+
+
+    // public function authorizePassword($password)
+    // {
+    //     return $this->getAuthPassword($password);
+    // }
 
 }

@@ -33,7 +33,7 @@
                                         <div class=" text-soft">
                                             <p>You can view and edit your profile by clicking the button.</p>
                                         </div>
-                                        <a href="#" class="btn btn-primary btn-md-6 mt-4">View Profile</a>
+                                        <a href="{{ route('view.my-info') }}" class="btn btn-primary btn-md-6 mt-4">View Profile</a>
                                     </div>
                                 </div>
                             </div>
@@ -90,11 +90,14 @@
                                     </div>
                                     <div class="d-flex justify-center align-center">
                                         <div>
-                                            <span class="title fw-bold fs-17px">Documents</span>
+                                            <a href="{{ route('view.my-document') }}">
+                                                <span class="title fw-bold fs-17px">Documents</span>
+                                            </a>
+
                                         </div>
-                                        <div class="">
+                                        {{-- <div class="">
                                             <span class="user-avatar xs m-1 fw-light text-white"></span>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                 </div><!-- .preview-icon-box -->

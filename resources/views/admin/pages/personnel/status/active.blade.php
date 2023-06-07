@@ -42,6 +42,7 @@
                 <!-- Add a container for the buttons above the table -->
                 <div id="tableButtons" class="mb-3" style="display: none;">
                     <button id="messageAllButton" class="btn btn-primary">Message All</button>
+                    <button id="deleteAllButton" class="btn btn-danger">Delete All</button>
                 </div>
                 <table id="personnelTable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                     <thead>

@@ -37,15 +37,17 @@
                 </div>
             </div>
         </div>
+    <form action="" method="get">
+        @csrf
         <div class="card card-bordered card-preview">
             <div class="card-inner">
                 <!-- Add a container for the buttons above the table -->
                 <div id="tableButtons" class="mb-3" style="display: none;">
-                    <button id="messageAllButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Message">Message All</button>
+                    <button type="submit" id="messageAllButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Message">Message All</button>
                 </div>
                 {{-- modal --}}
                  <!-- Modal Form -->
-                <div class="modal fade" id="modalForm">
+                <div class="modal fade" id="Message">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -54,54 +56,18 @@
                                     <em class="icon ni ni-cross"></em>
                                 </a>
                             </div>
-                            <div class="modal-body">
-                                <form action="{{ route('send.sms') }}" method="POST">
-                                    @csrf
-                                    <div class="row gy-4">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="mobile_no">Phone Number w/ Country Code</label>
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" placeholder="Phone Number"
-                                                        name="mobile_no" value="{{ request()->get('mobile_no') }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="message">Textarea</label>
-                                                <div class="form-control-wrap">
-                                                    <textarea class="form-control no-resize" id="default-textarea"
-                                                        name="message"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 d-flex">
-                                        <a href="{{ route('personnel-list') }}">
-                                            <div class="form-group mt-4">
-                                                <button type="button"  class="btn btn-white">Cancel</button>
-                                            </div>
-                                        </a>
-                                        <div class="form-group mt-4">
-                                            <button type="submit" class="btn btn-primary">Send</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <table id="personnelTable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
-                            <th class="nk-tb-col nk-tb-col-check">
+                            {{-- <th class="nk-tb-col nk-tb-col-check">
                                 <div class="custom-control custom-control-sm custom-checkbox notext">
                                     <input type="checkbox" class="custom-control-input" id="uid">
                                     <label class="custom-control-label" for="uid"></label>
                                 </div>
-                            </th>
+                            </th> --}}
                             <th class="nk-tb-col"><span class="sub-text">Name</span></th>
                             <th class="nk-tb-col tb-col-mb"><span class="sub-text">Rank</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Station</span></th>
@@ -113,12 +79,12 @@
                     <tbody>
                         @foreach ($personnels as $personnel)
                         <tr class="nk-tb-item">
-                            <td class="nk-tb-col nk-tb-col-check">
+                            {{-- <td class="nk-tb-col nk-tb-col-check">
                                 <div class="custom-control custom-control-sm custom-checkbox notext">
-                                    <input type="checkbox" class="custom-control-input" id="{{ $personnel->id }}">
+                                    <input type="checkbox" name="personnel_id[]" class="custom-control-input" id="{{ $personnel->id }}">
                                     <label class="custom-control-label" for="{{ $personnel->id }}"></label>
                                 </div>
-                            </td>
+                            </td> --}}
                             <td class="nk-tb-col">
                                 <a href="{{ route('view.personnel.profile',['id' => $personnel->id]) }}">
                                     <div class="user-card">
@@ -216,6 +182,7 @@
                                                             <span>Send SMS</span>
                                                         </a>
                                                     </li>
+                                                   
                                                 </ul>
                                             </div>
                                         </div>
@@ -229,88 +196,46 @@
                 </table>
             </div>
         </div><!-- .card-preview -->
+    </form>
+
     </div> <!-- nk-block -->
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // When any checkbox is clicked
-        $('input[type="checkbox"]').on('change', function() {
-            // Get the number of checked checkboxes
-            var checkedCount = $('input[type="checkbox"]:checked').length;
-
-            // Show or hide the buttons based on the checked count
-            if (checkedCount >= 2) {
-                $('#tableButtons').show();
-            } else {
-                $('#tableButtons').hide();
-            }
-
-            // Update the mobile numbers in the input field
-            updateMobileNumbers();
-        });
-
-        // When the table head checkbox is clicked
-        $('#uid').on('change', function() {
-            // Get the state of the table head checkbox
-            var isChecked = $(this).prop('checked');
-
-            // Set the state of all checkboxes in the table body to match
-            $('#personnelTable tbody').find('input[type="checkbox"]').prop('checked', isChecked);
-
-            // Show or hide the buttons based on the checkbox state
-            if (isChecked) {
-                $('#tableButtons').show();
-            } else {
-                $('#tableButtons').hide();
-            }
-
-            // Update the mobile numbers in the input field
-            updateMobileNumbers();
-        });
-
-        // When the "Message All" button is clicked
-        $('#messageAllButton').on('click', function(e) {
-            e.preventDefault();
-
-            // Get the selected mobile numbers
-            var mobileNumbers = [];
-
-            // Iterate over the checked checkboxes
-            $('input[type="checkbox"]:checked').each(function() {
-                var mobileNo = $(this).closest('tr').data('mobile-no');
-
-                if (mobileNo) {
-                    mobileNumbers.push(mobileNo);
-                }
-            });
-
-            // Redirect to the send SMS route with mobile numbers as query parameter
-            var sendSmsUrl = "{{ route('send.sms') }}?mobile_no=" + encodeURIComponent(mobileNumbers.join(','));
-            window.location.href = sendSmsUrl;
-        });
-
-        // Function to update the mobile numbers in the input field
-        function updateMobileNumbers() {
-            var mobileNumbers = [];
-
-            // Iterate over the checked checkboxes
-            $('input[type="checkbox"]:checked').each(function() {
-                var mobileNo = $(this).closest('tr').data('mobile-no');
-
-                if (mobileNo) {
-                    mobileNumbers.push(mobileNo);
-                }
-            });
-
-            // Update the input field value with the comma-separated mobile numbers
-            $('#mobileNoInput').val(mobileNumbers.join(', '));
+    // Function to check if the messageAll button should be shown
+    function checkMessageAllButton() {
+        var checkedCount = $('input.custom-control-input:checked').not('#checkAll').length;
+        if (checkedCount >= 2) {
+            $('#tableButtons').show();
+        } else {
+            $('#tableButtons').hide();
         }
+    }
+
+    // Event handler for checkbox clicks
+    $('input.custom-control-input').on('click', function() {
+        checkMessageAllButton();
     });
+
+    // Event handler for checkAll checkbox
+    $('#checkAll').on('click', function() {
+        var isChecked = $(this).prop('checked');
+        $('input.custom-control-input').prop('checked', isChecked);
+        checkMessageAllButton();
+    });
+
+    // Trigger checkAll checkbox when any individual checkbox is clicked
+    $('input.custom-control-input').not('#checkAll').on('click', function() {
+        var isAllChecked = $('input.custom-control-input:checked').not('#checkAll').length === $('input.custom-control-input').not('#checkAll').length;
+        $('#checkAll').prop('checked', isAllChecked);
+    });
+});
+
 </script>
-
-
 @endsection
+
+
 
 

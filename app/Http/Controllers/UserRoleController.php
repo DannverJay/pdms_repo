@@ -21,8 +21,19 @@ class UserRoleController extends Controller
 
     public function userDashboard()
     {
-        
-        return view('layouts.partials.user-content');
+         // Retrieve the authenticated user
+        $user = Auth::user();
+
+        // Get the associated personnel record for the user
+        $personnel = $user->personnel;
+
+        // Retrieve the documents for the personnel from the previous year
+        $previousYear = date('Y') - 1;
+        $documents = $personnel->documents()->whereYear('issued_date', $previousYear)->get();
+
+        // Count the total number of documents
+        $totalDocuments = $documents->count();
+        return view('layouts.partials.user-content', compact('documents', 'totalDocuments'));
     }
     public function index()
     {
@@ -528,8 +539,12 @@ class UserRoleController extends Controller
         $previousYear = date('Y') - 1;
         $documents = $personnel->documents()->whereYear('issued_date', $previousYear)->get();
 
-        return view('user.my-documents', compact('documents'));
+        // Count the total number of documents
+        $totalDocuments = $documents->count();
+
+        return view('user.my-documents', compact('documents', 'totalDocuments'));
     }
+
 
     public function previewDocument($id)
 {
@@ -579,5 +594,38 @@ public function deleteDocument($id)
     return redirect()->back()->with('success', 'Document deleted successfully.');
 }
 
+
+    public function upload(Request $request)
+    {
+        $user = Auth::user();
+        $personnel_id = $user->personnel->id;
+
+        $request->validate([
+            'document_file' => 'required|mimes:pdf,jpeg,jpg,png|max:2048', // Adjust the file types and size limit as needed
+            'document_type' => 'required',
+            'issued_date' => 'required|date',
+        ]);
+
+        if ($request->hasFile('document_file')) {
+            $file = $request->file('document_file');
+            $file_name = $file->getClientOriginalName();
+            $file_path = $file->store('documents');
+
+            $documentType = $request->input('document_type');
+            $issuedDate = $request->input('issued_date');
+
+            $document = Document::create([
+                'personnel_id' => $personnel_id,
+                'file_name' => $file_name,
+                'document_type' => $documentType, // Adjust the document type as needed
+                'issued_date' => $issuedDate, // Set the issued date as the provided value
+                'file_path' => $file_path,
+            ]);
+
+            return redirect()->back()->with('success', 'Document uploaded successfully.');
+        }
+
+        return redirect()->back()->with('error', 'Failed to upload document.');
+    }
 
 }

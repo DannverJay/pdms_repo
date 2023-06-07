@@ -45,6 +45,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+
     public function personnel(): HasOne
     {
         return $this->hasOne(Personnel::class);

@@ -23,52 +23,7 @@
                                         <span>Add User</span>
                                       </button>
 
-                                      {{-- <!-- Modal -->
-                                      <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal">
-                                          <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form method="POST" action="{{ route('users.store') }}">
-                                                    @csrf
 
-                                                    <div class="mb-3">
-                                                    <label for="username" class="form-label">Name</label>
-                                                    <input type="text" class="form-control" id="username" placeholder="Enter Name" name="username" value="{{ old('username') }}" required>
-                                                    @error('username')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                    <label for="email" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" value="{{ old('email') }}" required>
-                                                    @error('email')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                    <label for="password" class="form-label">Password</label>
-                                                    <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
-                                                    @error('password')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                    <label for="password_confirmation" class="form-label">Confirm Password</label>
-                                                    <input type="password" class="form-control" id="password_confirmation" placeholder="Confirm Password" name="password_confirmation" required>
-                                                    </div>
-
-                                                    <button type="submit" class="btn btn-info">Create User</button>
-                                                </form>
-                                            </div>
-                                          </div>
-                                        </div>
-                                    </div> --}}
                                 </li>
                             </ul>
                         </div>
@@ -78,16 +33,18 @@
         </div>
         <div class="card card-bordered card-preview">
             <div class="card-inner">
-                @if(session('success'))
+                @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
-                @elseif(session('error'))
+                @endif
+
+                @if (session('error'))
                     <div class="alert alert-danger">
                         {{ session('error') }}
                     </div>
                 @endif
-                <table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                <table id="userTable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
                             <th class="nk-tb-col"><span class="sub-text">User</span></th>
@@ -117,9 +74,6 @@
                                 <td class="nk-tb-col tb-col-mb">
                                     <span>{{ $user->email }}</span>
                                 </td>
-                                {{-- <td class="nk-tb-col tb-col-md">
-                                    <span>{{ $user->personnel->mobile_no }}</span>
-                                </td> --}}
                                 <td class="nk-tb-col tb-col-lg">
                                     <span class="badge badge-dot bg-primary">
                                         @foreach ($user->roles as $role)
@@ -140,10 +94,17 @@
                                                 <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <ul class="link-list-opt no-bdr">
-                                                        <li><a href="{{ route('users.show', $user) }}"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                                        <li class="divider"></li>
-                                                        <li><a href="#"><em class="icon ni ni-shield-star"></em><span>Change Pass</span></a></li>
-                                                        {{-- <li><a href="#"><em class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a></li> --}}
+                                                        <li><a href="{{ route('users.show', $user) }}"><span>View Profile</span></a></li>
+                                                        <li>
+                                                            <a  onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this user?')) { document.getElementById('delete-form-{{ $user->id }}').submit(); }">
+                                                                <span>Delete</span>
+                                                            </a>
+                                                            <form id="delete-form-{{ $user->id }}" action="{{ route('users.delete', ['id' => $user->id]) }}" method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+                                                        </li>
+
                                                     </ul>
 
                                                 </div>
@@ -201,5 +162,13 @@
         </div><!-- .modal-content -->
     </div><!-- .modal-dialog -->
 </div><!-- .modal -->
+
+<script>
+    $(document).ready(function() {
+      $('#userTable').DataTable({
+        "order": [[ 3, "desc" ]] // Sort by the 4th column (created_at) in descending order
+      });
+    });
+  </script>
 
 @endsection

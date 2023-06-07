@@ -237,4 +237,14 @@ class PersonnelController extends Controller
         // Redirect back or to a specific route
         return redirect()->back()->with('success', 'Email updated successfully.');
     }
+
+
+    public function delete($id)
+    {
+        $personnel = Personnel::findOrFail($id);
+        $personnel->delete();
+
+        // You can add any additional logic or redirect to the desired page
+        return redirect()->back()->with('success', 'Personnel deleted successfully.');
+    }
 }
