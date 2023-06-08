@@ -74,7 +74,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="birth_place">Birth Place <span class="text-danger"> *</span></label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="birth-place" name="birth_place" value="{{ $personnel->birth_place }}" required>
+                                                    <input type="text" class="form-control" id="birth_place" name="birth_place" value="{{ $personnel->birth_place }}" required>
                                                 </div>
                                             </div>
                                         </div>

@@ -117,8 +117,10 @@ Route::middleware(['auth'])->group(function () {
 
 
         Route::get('/view/personnel-profile/{id}', [PersonnelController::class, 'view'])->name('view.personnel.profile');
+
         Route::get('/personnel/create', [App\Http\Controllers\PersonnelProfileController::class, 'create'])->name('personnel.create');
         Route::post('/personnel/store', [App\Http\Controllers\PersonnelProfileController::class, 'store'])->name('personnel.store');
+
 
 
         //View Document Page /Personnel Profile
@@ -138,8 +140,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/view/personnel/{id}/update-email', [PersonnelController::class, 'updateEmail'])->name('view.update-email');
 
         Route::get('/personnel-profile/{personnel}/view', [PersonnelProfileController::class, 'showProfile'])->name('view.profile');
-        Route::get('/personnel/{user_id}/{personnel_id}/edit', [PersonnelProfileController::class, 'edit'])->name('edit.personnel');
-        Route::put('/personnel-profile/{id}/update', [PersonnelProfileController::class, 'update'])->name('update.personnel');
+        Route::get('/edit/personnel/{personnel_id}', [PersonnelProfileController::class, 'edit'])->name('edit.personnel');
+        Route::put('/personnel/{personnel_id}', [PersonnelProfileController::class, 'update'])->name('update.personnel');
+
+
+
 
         //Personnel-Profile View: FamilyBackground
         Route::post('/personnel/{personnel}/view/family-member', [PersonnelProfileController::class, 'createFamilyMember'])->name('add.new-member');

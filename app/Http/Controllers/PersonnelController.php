@@ -55,20 +55,21 @@ class PersonnelController extends Controller
     }
 
 
-    //personnel profile overview
-    public function view($id)
-    {
+      //personnel profile overview
+      public function view($id)
+      {
 
-        $currentYear = date('Y');
-        $previousYear = $currentYear - 1;
-        $personnel = Personnel::with('user')->findOrFail($id);
-        $latestIssuedDocuments = $personnel->documents()->whereYear('issued_date', $previousYear)->get();
-        $totalDocuments = $personnel->documents->count();
-        $totalLatestDocuments = $latestIssuedDocuments->count();
+          $currentYear = date('Y');
+          $previousYear = $currentYear - 1;
+          $personnel = Personnel::with('user')->findOrFail($id);
+          $latestIssuedDocuments = $personnel->documents()->whereYear('issued_date', $previousYear)->get();
+          $totalDocuments = $personnel->documents->count();
+          $totalLatestDocuments = $latestIssuedDocuments->count();
 
 
-        return view('admin.pages.personnel.view-profile', compact('personnel', 'latestIssuedDocuments','previousYear', 'totalDocuments', 'totalLatestDocuments'));
-    }
+          return view('admin.pages.personnel.view-profile', compact('personnel', 'latestIssuedDocuments','previousYear', 'totalDocuments', 'totalLatestDocuments'));
+      }
+
 
     //requirements upload
     public function upload(Request $request, $personnel_id)

@@ -17,7 +17,7 @@ class UserController extends Controller
         $userCount = User::count();
 
         $users = User::with('roles')
-        ->whereNotIn('name', ['admin'])
+      
         ->orderBy('created_at', 'desc')
         ->get();
 

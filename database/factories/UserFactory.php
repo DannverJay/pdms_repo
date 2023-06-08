@@ -23,7 +23,7 @@ class UserFactory extends Factory
             'name' => fake()->userName(),
             'email' => fake()->unique()->userName().'@gmail.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('ApalitPersonnel_214'), // password
+            'password' => Hash::make('password123'), // password
             'remember_token' => Str::random(10),
         ];
     }

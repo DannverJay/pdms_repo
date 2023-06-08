@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Personnel;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
@@ -47,30 +48,38 @@ class User extends Authenticatable
     ];
 
 
-
     protected static function boot()
     {
         parent::boot();
 
-        static::created(function ($user) {
-            $fullName = $user->name;
-            $nameParts = explode(' ', $fullName, 2); // Split into first name and last name
+        if (!app()->runningInConsole()) {
+            static::created(function ($user) {
+                $user->createPersonnel();
+            });
+        }
+    }
 
-            $personnel = new Personnel();
-            $personnel->first_name = $nameParts[0] ?? ''; // First name
-            $personnel->last_name = $nameParts[1] ?? ''; // Last name
-            $personnel->ranks = 'Patrolman';
-            $personnel->unit = 'PRO3';
-            $personnel->sub_unit = 'Pampanga PPO';
-            $personnel->station = 'Apalit Municipal Police Station';
-            $personnel->status = 'Active';
-            $personnel->user()->associate($user);
-            $personnel->save();
-        });
+    public function createPersonnel()
+    {
+        $fullName = $this->name;
+        $nameParts = explode(' ', $fullName, 2); // Split into first name and last name
+
+        $personnel = new Personnel();
+        $personnel->first_name = $nameParts[0] ?? ''; // First name
+        $personnel->last_name = $nameParts[1] ?? ''; // Last name
+        $personnel->ranks = 'Patrolman';
+        $personnel->unit = 'PRO3';
+        $personnel->sub_unit = 'Pampanga PPO';
+        $personnel->station = 'Apalit Municipal Police Station';
+        $personnel->status = 'Active';
+
+        // Save the personnel record and associate it with the user
+        $this->personnel()->save($personnel);
     }
 
     public function personnel(): HasOne
     {
         return $this->hasOne(Personnel::class);
     }
+
 }
