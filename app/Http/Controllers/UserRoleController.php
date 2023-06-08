@@ -35,11 +35,20 @@ class UserRoleController extends Controller
         $totalDocuments = $documents->count();
         return view('layouts.partials.user-content', compact('documents', 'totalDocuments'));
     }
+
+
     public function index()
     {
+        // Get the currently logged-in user
+        $user = Auth::user();
 
-        return view('user.my-profile');
+        // Get the personnel ID associated with the user
+        $personnelId = $user->personnel_id;
+
+        // Pass the personnel ID to the view
+        return view('user.my-profile', compact('personnelId'));
     }
+
 
     //-- Family CRUD -- //
 
@@ -58,6 +67,15 @@ class UserRoleController extends Controller
     $backgrounds = $personnel->familyBackgrounds;
 
         return view('user.tabs.my-family', compact('backgrounds'));
+    }
+
+    // Retrieve and display the edit page for a specific personnel
+    public function edit($id)
+    {
+        $personnel = Personnel::findOrFail($id);
+
+        // Pass the personnel data to the view
+        return view('user.edit-info', compact('personnel'));
     }
 
     public function updateFamily(Request $request, $id)
@@ -594,7 +612,7 @@ public function deleteDocument($id)
     return redirect()->back()->with('success', 'Document deleted successfully.');
 }
 
-
+    // User can upload documents
     public function upload(Request $request)
     {
         $user = Auth::user();
@@ -626,6 +644,61 @@ public function deleteDocument($id)
         }
 
         return redirect()->back()->with('error', 'Failed to upload document.');
+    }
+
+        // Retrieve and display the edit page for a specific personnel
+        public function editProfile($id)
+        {
+            $personnel = Personnel::findOrFail($id);
+
+            // Pass the personnel data to the view
+            return view('personnel.edit', compact('personnel'));
+        }
+    //user can update information
+    public function update(Request $request, $id)
+    {
+        // Validate the user's input
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'gender' => 'required',
+        ]);
+
+        // Find the personnel record to update
+        $personnel = Personnel::findOrFail($id);
+
+        // Check if the authenticated user is authorized to update the personnel record
+        if ($personnel->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        // Update the personnel record with the new data
+        $personnel->first_name = $validatedData['first_name'];
+        $personnel->middle_name = $request->input('middle_name');
+        $personnel->last_name = $validatedData['last_name'];
+        $personnel->birth_date = Carbon::createFromFormat('m/d/Y', $request->birth_date)->format('Y-m-d');
+        $personnel->birth_place = $request->input('birth_place');
+        $personnel->gender = $validatedData['gender'];
+        $personnel->civil_status = $request->input('civil_status');
+        $personnel->citizenship = $request->input('citizenship');
+        $personnel->blood_type = $request->input('blood_type');
+        $personnel->height = $request->input('height');
+        $personnel->weight = $request->input('weight');
+        $personnel->mobile_no = $request->input('mobile_no');
+        $personnel->tel_no = $request->input('tel_no');
+        $personnel->home_street = $request->input('home_street');
+        $personnel->home_city = $request->input('home_city');
+        $personnel->home_province = $request->input('home_province');
+        $personnel->home_zip = $request->input('home_zip');
+        $personnel->current_street = $request->input('current_street');
+        $personnel->current_city = $request->input('current_city');
+        $personnel->current_province = $request->input('current_province');
+        $personnel->current_zip = $request->input('current_zip');
+        $personnel->save();
+
+        // Redirect the user to the updated personnel's profile
+        return redirect()->route('view.profile', $personnel->id)
+                ->with('success', 'Information has been successfully updated.');
     }
 
 }

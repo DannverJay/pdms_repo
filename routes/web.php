@@ -45,6 +45,10 @@ Route::middleware(['auth'])->group(function () {
         })->name('dashboard');
 
         Route::get('/my-profile', [UserRoleController::class, 'index'])->name('view.my-info');
+        Route::get('/personnel/{id}/edit', [UserRoleController::class, 'editProfile'])->name('personnel.edit');
+        Route::put('/personnel/{id}', [UserRoleController::class, 'update'])->name('personnel.update');
+
+
         Route::post('/documents/upload', [UserRoleController::class, 'upload'])->name('my-documents.upload');
         //Fdamily
         Route::get('/my-family-members', [UserRoleController::class, 'showFamily'])->name('view.my-family');
