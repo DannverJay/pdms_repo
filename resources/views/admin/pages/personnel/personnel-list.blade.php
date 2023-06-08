@@ -164,7 +164,7 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{ route('edit.personnel', $personnel->id) }}">
+                                                        <a href="{{ route('edit.personnel', ['user_id' => $personnel->user->id, 'personnel_id' => $personnel->id]) }}">
                                                             <em class="icon ni ni-edit"></em>
                                                             <span>Update Details</span>
                                                         </a>
@@ -182,7 +182,7 @@
                                                             <span>Send SMS</span>
                                                         </a>
                                                     </li>
-                                                   
+
                                                 </ul>
                                             </div>
                                         </div>

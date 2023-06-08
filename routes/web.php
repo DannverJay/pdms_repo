@@ -138,7 +138,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/view/personnel/{id}/update-email', [PersonnelController::class, 'updateEmail'])->name('view.update-email');
 
         Route::get('/personnel-profile/{personnel}/view', [PersonnelProfileController::class, 'showProfile'])->name('view.profile');
-        Route::get('/personnel-profile/{id}/edit', [PersonnelProfileController::class, 'edit'])->name('edit.personnel');
+        Route::get('/personnel/{user_id}/{personnel_id}/edit', [PersonnelProfileController::class, 'edit'])->name('edit.personnel');
         Route::put('/personnel-profile/{id}/update', [PersonnelProfileController::class, 'update'])->name('update.personnel');
 
         //Personnel-Profile View: FamilyBackground

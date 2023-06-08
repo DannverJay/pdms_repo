@@ -70,9 +70,9 @@ class PersonnelProfileController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit($user_id, $personnel_id)
     {
-        $personnel = Personnel::findOrFail($id);
+        $personnel = Personnel::where('user_id', $user_id)->findOrFail($personnel_id);
         return view('admin.pages.personnel.edit-personnel', compact('personnel'));
     }
 

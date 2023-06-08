@@ -82,7 +82,7 @@
                                                         <p>Basic info, like your name and address.</p>
                                                     </div>
                                                     <div class="nk-block-head-content ms-auto">
-                                                        <a href="{{ route('edit.personnel', $personnel->id) }}">
+                                                        <a href="{{ route('edit.personnel', ['user_id' => $personnel->user->id, 'personnel_id' => $personnel->id]) }}">
                                                             <button class="btn btn-primary btn-sm d-block d-md-inline-block">
                                                                 <em class="icon ni ni-edit"></em>
                                                                 {{-- <span class="d-none d-md-inline-block">Edit</span> --}}
