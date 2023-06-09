@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="nk-file-name">
                                         <div class="nk-file-name-text">
-                                            <a href="{{ route('documents.download', ['id' => $document->id]) }}" class="title">{{ $document->file_name }}</a>
+                                            <a href="{{ route('my-documents.preview', ['id' => $document->id]) }}" class="title">{{ $document->file_name }}</a>
 
                                         </div>
                                     </div>
