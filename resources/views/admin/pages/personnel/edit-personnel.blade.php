@@ -72,9 +72,9 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label class="form-label" for="birth_place">Birth Place <span class="text-danger"> *</span></label>
+                                                <label class="form-label" for="birth_place">Birth Place</label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="birth_place" name="birth_place" value="{{ $personnel->birth_place }}" required>
+                                                    <input type="text" class="form-control" id="birth_place" name="birth_place" value="{{ $personnel->birth_place }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -83,7 +83,7 @@
                                                 <label class="form-label" for="gender">Gender <span class="text-danger"> *</span></label>
                                                 <div class="form-control-wrap">
                                                     <select class="form-select js-select2" id="gender" name="gender" required>
-                                                        <option>Select Gender</option>
+                                                        <option value="None">Select Gender</option>
                                                         <option value="Male" @if($personnel->gender == 'Male') selected @endif>Male</option>
                                                         <option value="Female" @if($personnel->gender == 'Female') selected @endif>Female</option>
                                                     </select>
@@ -106,9 +106,9 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label class="form-label" for="citizenship">Citizenship <span class="text-danger"> *</span></label>
+                                                <label class="form-label" for="citizenship">Citizenship</label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="citizenship" name="citizenship" value="{{ $personnel->citizenship }}" required>
+                                                    <input type="text" class="form-control" id="citizenship" name="citizenship" value="{{ $personnel->citizenship }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -117,7 +117,7 @@
                                                 <label class="form-label" for="blood_type">Blood Type</label>
                                                 <div class="form-control-wrap">
                                                     <select class="form-select js-select2" id="blood_type" name="blood_type">
-                                                        <option >Select Blood Type</option>
+                                                        <option value="None">Select Blood Type</option>
                                                         <option value="A+" {{ $personnel->blood_type == 'A+' ? 'selected' : '' }}>A+</option>
                                                         <option value="A-" {{ $personnel->blood_type == 'A-' ? 'selected' : '' }}>A-</option>
                                                         <option value="B+" {{ $personnel->blood_type == 'B+' ? 'selected' : '' }}>B+</option>
@@ -206,7 +206,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="home_province">Province <span class="text-danger"> *</span></label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="home_province" value="{{ $personnel->home_province }}" name="home_province" required>
+                                                    <input type="text" class="form-control" id="home_province" value="{{ $personnel->home_province }}" name="home_province">
                                                 </div>
                                             </div>
                                         </div>
@@ -214,7 +214,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="home_city">City / Municipality <span class="text-danger"> *</span></label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="home_city" value="{{ $personnel->home_city }}" name="home_city" required>
+                                                    <input type="text" class="form-control" id="home_city" value="{{ $personnel->home_city }}" name="home_city">
                                                 </div>
                                             </div>
                                         </div>
@@ -222,7 +222,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="home_street">Street / House # / Bldg. / Floor & Unit <span class="text-danger"> *</span></label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="home_street" value="{{ $personnel->home_street }}" name="home_street" required>
+                                                    <input type="text" class="form-control" id="home_street" value="{{ $personnel->home_street }}" name="home_street">
                                                 </div>
                                             </div>
                                         </div>
@@ -230,7 +230,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="home_zip">Zip Code <span class="text-danger"> *</span></label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="home_zip" value="{{ $personnel->home_zip }}" name="home_zip" required>
+                                                    <input type="text" class="form-control" id="home_zip" value="{{ $personnel->home_zip }}" name="home_zip">
                                                 </div>
                                             </div>
                                         </div>

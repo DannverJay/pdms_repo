@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('last_name');
             $table->date('birth_date')->nullable();
             $table->string('birth_place')->nullable();
-            $table->enum('gender', ['Male', 'Female', 'Other'])->nullable();
+            $table->enum('gender', ['Male', 'Female', 'None'])->nullable();
             $table->enum('civil_status', ['Single', 'Married', 'Divorced', 'Widowed'])->nullable();
             $table->string('citizenship')->nullable();
-            $table->enum('blood_type', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])->nullable();
+            $table->enum('blood_type', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'None'])->nullable();
             $table->integer('height')->nullable();
             $table->integer('weight')->nullable();
             $table->string('mobile_no')->nullable();
