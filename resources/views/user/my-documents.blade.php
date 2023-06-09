@@ -7,11 +7,11 @@
             <div class="nk-block-between position-relative">
                 <div class="nk-block-head-content">
                     <h3 class="nk-block-title page-title">Documents</h3>
-
+{{--
                     <button class="btn btn-primary btn-sm d-block d-md-inline-block" data-bs-toggle="modal" data-bs-target="#Upload">
                         <span class="d-none d-md-inline-block">Upload</span>
                         <span class="d-md-none"><em class="icon ni ni-plus"></em></span>
-                    </button>
+                    </button> --}}
 
                     {{-- modal --}}
                     <div class="modal fade" tabindex="-1" id="Upload">
@@ -29,7 +29,7 @@
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label class="form-label">File Upload</label>
-                                                <input type="file" class="form-control" id="document_file" name="document_file" required>
+                                                <input type="file" class="form-control" id="file" name="file" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
