@@ -17,10 +17,10 @@ class RoleSeeder extends Seeder
         $userRole = Role::create(['name' => 'user']);
         $adminRole = Role::create(['name' => 'admin']);
 
-            Permission::create(['name' => 'create', 'guard_name' => 'web']);
-            Permission::create(['name' => 'read', 'guard_name' => 'web']);
-            Permission::create(['name' => 'update', 'guard_name' => 'web']);
-            Permission::create(['name' => 'delete', 'guard_name' => 'web']);
+            Permission::create(['name' => 'create']);
+            Permission::create(['name' => 'read']);
+            Permission::create(['name' => 'update']);
+            Permission::create(['name' => 'delete']);
           // Retrieve Permissions
           $permissions = Permission::all();
 
