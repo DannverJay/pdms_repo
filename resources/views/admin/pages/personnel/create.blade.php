@@ -103,8 +103,6 @@
                                                         <option>Select Civil Status</option>
                                                         <option>Single</option>
                                                         <option>Married</option>
-                                                        <option>Legally Separated</option>
-                                                        <option>Separated</option>
                                                         <option>Divorced</option>
                                                     </select>
                                                 </div>

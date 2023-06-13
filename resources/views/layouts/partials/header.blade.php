@@ -10,10 +10,7 @@
                     <img class="logo-dark logo-img" src="{{ asset('assets/auth/Logo-dark-new.svg') }}" srcset="{{ asset('assets/auth/Logo-light-new.svg') }}" alt="logo-dark">
                 </a>
             </div><!-- .nk-header-brand -->
-            <div class="nk-header-search ms-3 ms-xl-0">
-                <em class="icon ni ni-search"></em>
-                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search anything">
-            </div><!-- .nk-header-news -->
+
             <div class="nk-header-tools">
                 <ul class="nk-quick-nav">
                     <li class="dropdown user-dropdown">
@@ -43,10 +40,9 @@
                             </div>
                             <div class="dropdown-inner">
                                 <ul class="link-list">
-                                    <li><a href="{{ route('profile.edit') }}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                    {{-- <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
-                                    <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> --}}
-                                    <li><a class="dark-switch"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
+                                    <li><a href="{{ route('view.my-info') }}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                    <li><a href="{{  route('profile.edit')  }}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+
                                 </ul>
                             </div>
                             <div class="dropdown-inner">

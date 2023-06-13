@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Models\Personnel;
 use App\Models\Document;
 use App\Models\EducationBackground;
@@ -38,17 +39,196 @@ class UserRoleController extends Controller
 
 
     public function index()
-    {
-        // Get the currently logged-in user
-        $user = Auth::user();
+{
+    // Get the currently logged-in user
+    $user = Auth::user();
 
-        // Get the personnel ID associated with the user
-        $personnelId = $user->personnel_id;
+    // Check if the user has a personnel record associated with them
+    if ($user->personnel) {
+        // Get the personnel associated with the user
+        $personnel = $user->personnel;
 
-        // Pass the personnel ID to the view
-        return view('user.my-profile', compact('personnelId'));
+        // Pass the personnel to the view
+        return view('user.my-profile', compact('personnel'));
     }
 
+    // Handle the case where no personnel record is found for the user
+    // You can redirect to an appropriate page or display an error message
+    return redirect()->back()->with('error', 'No personnel record found for the user.');
+}
+
+public function documents()
+{
+    // Get the authenticated user or personnel
+    $user = auth()->user();
+
+    // Calculate the previous year
+    $previousYear = Carbon::now()->subYear()->format('Y');
+
+    // Retrieve the documents with the issued date from the previous year
+    $documents = $user->personnel->documents()
+        ->whereYear('issued_date', $previousYear)
+        ->get();
+
+        $documentTypes = [
+            'Personal Data Sheet',
+            'Diploma/TOR',
+            'Physical Fitness Test',
+            'Trainings',
+            'Specialized Trainings',
+            'SALN',
+            'KSS',
+            'PER',
+            'Reassignments',
+            'Eligibility',
+        ];
+
+    // Retrieve the uploaded document types for the current user/personnel
+    $uploadedDocumentTypes = $documents->pluck('document_type')->toArray();
+
+    return view('user.documents', compact('documents', 'documentTypes', 'uploadedDocumentTypes'));
+}
+
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:pdf,jpeg,jpg,png|max:2048',
+            'document_type' => 'required',
+        ]);
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $file_extension = $file->getClientOriginalExtension();
+
+            $documentType = $request->input('document_type');
+            $previousYear = now()->subYear();
+
+            $personnel = Auth::user()->personnel;
+            $personnelName = $personnel->first_name . ' ' . $personnel->last_name;
+            $customFileName = $personnelName . '_' . $previousYear->format('Y') . '_' . Str::random(10) . '.' . $file_extension;
+            $file_path = Storage::putFileAs('documents', $file, $customFileName);
+
+            $document = Document::create([
+                'personnel_id' => $personnel->id,
+                'file_name' => $customFileName,
+                'document_type' => $documentType,
+                'issued_date' => $previousYear,
+                'file_path' => $file_path,
+            ]);
+
+            $documentTypes = [
+                'Personal Data Sheet',
+                'Diploma/TOR',
+                'Physical Fitness Test',
+                'Trainings',
+                'Specialized Trainings',
+                'SALN',
+                'KSS',
+                'PER',
+                'Reassignments',
+                'Eligibility',
+            ];
+
+            $uploadedDocumentTypes = Document::where('personnel_id', Auth::user()->personnel->id)
+                ->pluck('document_type')
+                ->toArray();
+
+            // Remove the uploaded document types from the available document types
+            $availableDocumentTypes = array_diff($documentTypes, $uploadedDocumentTypes);
+
+            return redirect()->back()->with('success', 'Document uploaded successfully.')
+                ->with(compact('availableDocumentTypes', 'documentTypes'));
+        }
+
+        return redirect()->back()->with('error', 'Failed to upload document.');
+    }
+
+
+
+
+    public function edit(Personnel $personnel)
+    {
+        return view('user.edit-info', compact('personnel'));
+    }
+
+    public function update(Request $request, Personnel $personnel)
+    {
+        $personnel->update($request->all());
+
+        // You can add any additional logic or validation here if needed.
+
+        return redirect()->route('view.my-info', $personnel->id)
+            ->with('success', 'Personnel record updated successfully!');
+    }
+
+    // Show documents of the authenticated user
+    public function showDocuments()
+    {
+        // Retrieve the authenticated user
+        $user = Auth::user();
+
+        // Get the associated personnel record for the user
+        $personnel = $user->personnel;
+
+        // Retrieve the documents for the personnel from the previous year
+        $previousYear = date('Y') - 1;
+        $documents = $personnel->documents()->whereYear('issued_date', $previousYear)->get();
+
+        // Count the total number of documents
+        $totalDocuments = $documents->count();
+
+        return view('user.my-documents', compact('documents', 'totalDocuments'));
+    }
+
+
+    public function previewDocument($id)
+{
+    $document = Document::findOrFail($id);
+
+    // Check if the document belongs to the authenticated user
+    if ($document->personnel->user_id !== Auth::id()) {
+        abort(403); // Or you can redirect to an error page
+    }
+
+    $path = storage_path('app/' . $document->file_path);
+    return response()->file($path);
+}
+
+public function downloadDocument($id)
+{
+    $document = Document::findOrFail($id);
+
+    // Check if the document belongs to the authenticated user
+    if ($document->personnel->user_id !== Auth::id()) {
+        abort(403); // Or you can redirect to an error page
+    }
+
+    // Set the download headers
+    $downloadHeaders = [
+        'Content-Type' => 'application/octet-stream',
+    ];
+
+    return Storage::download($document->file_path, $document->file_name, $downloadHeaders);
+}
+
+public function deleteDocument($id)
+{
+    $document = Document::findOrFail($id);
+
+    // Check if the document belongs to the authenticated user
+    if ($document->personnel->user_id !== Auth::id()) {
+        abort(403); // Or you can redirect to an error page
+    }
+
+    // Delete the document file from storage
+    Storage::delete($document->file_path);
+
+    // Delete the document record from the database
+    $document->delete();
+
+    return redirect()->back()->with('success', 'Document deleted successfully.');
+}
 
     //-- Family CRUD -- //
 
@@ -67,15 +247,6 @@ class UserRoleController extends Controller
     $backgrounds = $personnel->familyBackgrounds;
 
         return view('user.tabs.my-family', compact('backgrounds'));
-    }
-
-    // Retrieve and display the edit page for a specific personnel
-    public function edit($id)
-    {
-        $personnel = Personnel::findOrFail($id);
-
-        // Pass the personnel data to the view
-        return view('user.edit-info', compact('personnel'));
     }
 
     public function updateFamily(Request $request, $id)
@@ -541,164 +712,6 @@ class UserRoleController extends Controller
         $training->delete();
 
         return redirect()->back()->with('Training deleted successfully');
-    }
-
-
-    // Show documents of the authenticated user
-    public function showDocuments()
-    {
-        // Retrieve the authenticated user
-        $user = Auth::user();
-
-        // Get the associated personnel record for the user
-        $personnel = $user->personnel;
-
-        // Retrieve the documents for the personnel from the previous year
-        $previousYear = date('Y') - 1;
-        $documents = $personnel->documents()->whereYear('issued_date', $previousYear)->get();
-
-        // Count the total number of documents
-        $totalDocuments = $documents->count();
-
-        return view('user.my-documents', compact('documents', 'totalDocuments'));
-    }
-
-
-    public function previewDocument($id)
-{
-    $document = Document::findOrFail($id);
-
-    // Check if the document belongs to the authenticated user
-    if ($document->personnel->user_id !== Auth::id()) {
-        abort(403); // Or you can redirect to an error page
-    }
-
-    $path = storage_path('app/' . $document->file_path);
-    return response()->file($path);
-}
-
-public function downloadDocument($id)
-{
-    $document = Document::findOrFail($id);
-
-    // Check if the document belongs to the authenticated user
-    if ($document->personnel->user_id !== Auth::id()) {
-        abort(403); // Or you can redirect to an error page
-    }
-
-    // Set the download headers
-    $downloadHeaders = [
-        'Content-Type' => 'application/octet-stream',
-    ];
-
-    return Storage::download($document->file_path, $document->file_name, $downloadHeaders);
-}
-
-public function deleteDocument($id)
-{
-    $document = Document::findOrFail($id);
-
-    // Check if the document belongs to the authenticated user
-    if ($document->personnel->user_id !== Auth::id()) {
-        abort(403); // Or you can redirect to an error page
-    }
-
-    // Delete the document file from storage
-    Storage::delete($document->file_path);
-
-    // Delete the document record from the database
-    $document->delete();
-
-    return redirect()->back()->with('success', 'Document deleted successfully.');
-}
-
-    // User can upload documents
-    public function upload(Request $request)
-    {
-        $user = Auth::user();
-        $personnel_id = $user->personnel->id;
-
-        $request->validate([
-            'document_file' => 'required|mimes:pdf,jpeg,jpg,png|max:2048', // Adjust the file types and size limit as needed
-            'document_type' => 'required',
-            'issued_date' => 'required|date',
-        ]);
-
-        if ($request->hasFile('document_file')) {
-            $file = $request->file('document_file');
-            $file_name = $file->getClientOriginalName();
-            $file_path = $file->store('documents');
-
-            $documentType = $request->input('document_type');
-            $issuedDate = $request->input('issued_date');
-
-            $document = Document::create([
-                'personnel_id' => $personnel_id,
-                'file_name' => $file_name,
-                'document_type' => $documentType, // Adjust the document type as needed
-                'issued_date' => $issuedDate, // Set the issued date as the provided value
-                'file_path' => $file_path,
-            ]);
-
-            return redirect()->back()->with('success', 'Document uploaded successfully.');
-        }
-
-        return redirect()->back()->with('error', 'Failed to upload document.');
-    }
-
-        // Retrieve and display the edit page for a specific personnel
-        public function editProfile($id)
-        {
-            $personnel = Personnel::findOrFail($id);
-
-            // Pass the personnel data to the view
-            return view('personnel.edit', compact('personnel'));
-        }
-    //user can update information
-    public function update(Request $request, $id)
-    {
-        // Validate the user's input
-        $validatedData = $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'gender' => 'required',
-        ]);
-
-        // Find the personnel record to update
-        $personnel = Personnel::findOrFail($id);
-
-        // Check if the authenticated user is authorized to update the personnel record
-        if ($personnel->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized');
-        }
-
-        // Update the personnel record with the new data
-        $personnel->first_name = $validatedData['first_name'];
-        $personnel->middle_name = $request->input('middle_name');
-        $personnel->last_name = $validatedData['last_name'];
-        $personnel->birth_date = Carbon::createFromFormat('m/d/Y', $request->birth_date)->format('Y-m-d');
-        $personnel->birth_place = $request->input('birth_place');
-        $personnel->gender = $validatedData['gender'];
-        $personnel->civil_status = $request->input('civil_status');
-        $personnel->citizenship = $request->input('citizenship');
-        $personnel->blood_type = $request->input('blood_type');
-        $personnel->height = $request->input('height');
-        $personnel->weight = $request->input('weight');
-        $personnel->mobile_no = $request->input('mobile_no');
-        $personnel->tel_no = $request->input('tel_no');
-        $personnel->home_street = $request->input('home_street');
-        $personnel->home_city = $request->input('home_city');
-        $personnel->home_province = $request->input('home_province');
-        $personnel->home_zip = $request->input('home_zip');
-        $personnel->current_street = $request->input('current_street');
-        $personnel->current_city = $request->input('current_city');
-        $personnel->current_province = $request->input('current_province');
-        $personnel->current_zip = $request->input('current_zip');
-        $personnel->save();
-
-        // Redirect the user to the updated personnel's profile
-        return redirect()->route('view.profile', $personnel->id)
-                ->with('success', 'Information has been successfully updated.');
     }
 
 }

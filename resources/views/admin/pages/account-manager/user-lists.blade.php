@@ -95,6 +95,7 @@
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li><a href="{{ route('users.show', $user) }}"><span>View Profile</span></a></li>
+                                                        <li><a href="{{ route('users.edit', $user->id) }}"><span>Account Details</span></a></li>
                                                         <li>
                                                             <a  onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this user?')) { document.getElementById('delete-form-{{ $user->id }}').submit(); }">
                                                                 <span>Delete</span>

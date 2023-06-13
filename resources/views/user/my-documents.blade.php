@@ -115,12 +115,9 @@
                                                     <em class="icon ni ni-focus"></em><span>Preview</span></a></li>
                                                 </a>
                                             </li>
-                                            @can('download document')
                                             <li>
                                                 <a href="{{ route('my-documents.download', ['id' => $document->id]) }}"><em class="icon ni ni-download"></em><span>Download</span></a>
                                             </li>
-                                            @endcan
-                                            @can('delete document')
                                             <li>
                                                 <a href="#" class="btn" style="border: none; padding-left: 11px; background-color: transparent;"
                                                 onclick="event.preventDefault(); if (confirm('Are you sure you want to delete this document?')) { document.getElementById('delete-form-{{ $document->id }}').submit(); }">
@@ -133,7 +130,7 @@
                                                 @method('DELETE')
                                                 </form>
                                             </li>
-                                            @endcan
+
 
                                         </ul>
                                     </div>

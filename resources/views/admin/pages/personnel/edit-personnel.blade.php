@@ -97,8 +97,6 @@
                                                     <select class="form-select js-select2" id="civil_status" name="civil_status"  required>
                                                     <option value="Single" {{ $personnel->civil_status == 'Single' ? 'selected' : '' }}>Single</option>
                                                     <option value="Married" {{ $personnel->civil_status == 'Married' ? 'selected' : '' }}>Married</option>
-                                                    <option value="Legally Separated" {{ $personnel->civil_status == 'Legally Separated' ? 'selected' : '' }}>Legally Separated</option>
-                                                    <option value="Separated" {{ $personnel->civil_status == 'Separated' ? 'selected' : '' }}>Separated</option>
                                                     <option value="Divorced" {{ $personnel->civil_status == 'Divorced' ? 'selected' : '' }}>Divorced</option>
                                                     </select>
                                                 </div>

@@ -110,7 +110,7 @@
                         <div class="card card-bordered" style="border-radius: 20px; height: 500px;">
                             <span class="brand-logo pt-4 text-center">
                                 <a href="html/index.html" class="logo-link">
-                                    <img src="{{ asset('assets/auth/images/Logo3.svg') }}" width="150px" height="50px" class="logo-small logo-img" alt="">
+                                    <img src="{{ asset('assets/auth/Logo-light-new.svg') }}" width="150px" height="50px" class="logo-small logo-img" alt="">
                                 </a>
                                 <h4 class="nk-block-title pt-0 text-center text-dark">{{ __('Login') }}</h4>
                             </span>

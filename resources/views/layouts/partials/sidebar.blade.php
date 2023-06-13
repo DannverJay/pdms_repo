@@ -59,7 +59,7 @@
                         <li class="nk-menu-item">
                             <a href="{{ route('user.lists') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-account-setting-fill"></em></span>
-                                <span class="nk-menu-text">Account Manager</span>
+                                <span class="nk-menu-text">User Manager</span>
                             </a>
                         </li><!-- .nk-menu-item -->
 
@@ -80,7 +80,7 @@
                         </li><!-- .nk-menu-item -->
 
                         <li class="nk-menu-item">
-                            <a href="{{ route('view.my-document') }}" class="nk-menu-link">
+                            <a href="{{ route('view.user-documents') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-files-fill"></em></span>
                                 <span class="nk-menu-text">Documents</span>
                             </a>
@@ -95,69 +95,20 @@
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-file-docs"></em></span>
-                            <span class="nk-menu-text">User Guide</span>
+                            <span class="nk-menu-text">Documentation</span>
                         </a>
                         <ul class="nk-menu-sub">
+                        @role('admin')
                             <li class="nk-menu-item">
-                                <a href="html/pages/auths/auth-login.html" class="nk-menu-link" target="_blank"><span
-                                        class="nk-menu-text">Login / Signin</span></a>
+                                <a href="{{ route('support.user-guide') }}" class="nk-menu-link"><span
+                                        class="nk-menu-text">Admin Guide</span></a>
                             </li>
+                        @else
                             <li class="nk-menu-item">
-                                <a href="html/pages/auths/auth-register.html" class="nk-menu-link" target="_blank"><span
-                                        class="nk-menu-text">Register / Signup</span></a>
+                                <a href="{{ route('support.regular-user.guide') }}" class="nk-menu-link"><span
+                                        class="nk-menu-text">User Guide</span></a>
                             </li>
-                            <li class="nk-menu-item">
-                                <a href="html/pages/auths/auth-reset.html" class="nk-menu-link" target="_blank"><span
-                                        class="nk-menu-text">Forgot Password</span></a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="html/pages/auths/auth-success.html" class="nk-menu-link" target="_blank"><span
-                                        class="nk-menu-text">Success / Confirm</span></a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">Classic
-                                        Version - v2</span></a>
-                                <ul class="nk-menu-sub">
-                                    <li class="nk-menu-item">
-                                        <a href="html/pages/auths/auth-login-v2.html" class="nk-menu-link"
-                                            target="_blank"><span class="nk-menu-text">Login / Signin</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="html/pages/auths/auth-register-v2.html" class="nk-menu-link"
-                                            target="_blank"><span class="nk-menu-text">Register / Signup</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="html/pages/auths/auth-reset-v2.html" class="nk-menu-link"
-                                            target="_blank"><span class="nk-menu-text">Forgot Password</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="html/pages/auths/auth-success-v2.html" class="nk-menu-link"
-                                            target="_blank"><span class="nk-menu-text">Success / Confirm</span></a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">No Slider
-                                        Version - v3</span></a>
-                                <ul class="nk-menu-sub">
-                                    <li class="nk-menu-item">
-                                        <a href="html/pages/auths/auth-login-v3.html" class="nk-menu-link"
-                                            target="_blank"><span class="nk-menu-text">Login / Signin</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="html/pages/auths/auth-register-v3.html" class="nk-menu-link"
-                                            target="_blank"><span class="nk-menu-text">Register / Signup</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="html/pages/auths/auth-reset-v3.html" class="nk-menu-link"
-                                            target="_blank"><span class="nk-menu-text">Forgot Password</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="html/pages/auths/auth-success-v3.html" class="nk-menu-link"
-                                            target="_blank"><span class="nk-menu-text">Success / Confirm</span></a>
-                                    </li>
-                                </ul>
-                            </li>
+                        @endrole
                         </ul><!-- .nk-menu-sub -->
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item">

@@ -37,17 +37,13 @@
 								<!-- .header-nav-toggle -->
 								<nav class="header-menu" data-content="mainNav">
 									<ul class="menu-list ms-lg-auto">
-										<li class="menu-item"><a href="#home" class="menu-link nav-link">Home</a></li>
+										<li class="menu-item active"><a href="#home" class="menu-link nav-link">Home</a></li>
 										<li class="menu-item"><a href="#reviews" class="menu-link nav-link">FAQ</a></li>
 									</ul>
 									<ul class="menu-btns">
                                         @auth
                                             <li>
                                                 <a href="{{ url('/dashboard') }}" class="btn btn-primary btn-lg">Dashboard</a>
-                                            </li>
-                                        @else
-                                            <li>
-                                                <a href="{{ route('login') }}" class="btn btn-primary btn-lg">Log In</a>
                                             </li>
 
                                         @endauth
@@ -65,7 +61,7 @@
 							<div class="row flex-lg-row-reverse align-items-center justify-content-between g-gs">
 								<div class="col-lg-6 mb-lg-0">
 									<div class="header-play text-lg-center">
-										<a class="play popup-video" href="https://www.youtube.com/watch?v=SSo_EIwHSd4">
+										<a class="play popup-video" href="#">
 											<div class="styled-icon styled-icon-6x styled-icon-s5 text-warning">
 												<svg x="0px" y="0px" viewBox="0 0 512 512" style="fill: currentColor" xml:space="preserve">
 													<path

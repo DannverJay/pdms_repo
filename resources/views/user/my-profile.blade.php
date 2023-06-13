@@ -11,19 +11,40 @@
                             <div class="nk-block-head nk-block-head-lg">
                                 <div class="nk-block-between">
                                     <div class="nk-block-head-content">
+
                                         <h4 class="nk-block-title">Personal Information</h4>
                                         <div class="nk-block-des">
                                             <p>Basic info, like your name and address, that can be usefule for your personal data sheet.</p>
                                         </div>
                                     </div>
-                                  
+
                                     <div class="nk-block-head-content align-self-start d-lg-none">
                                         <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em class="icon ni ni-menu-alt-r"></em></a>
                                     </div>
+                                    <div class="nk-block-head-content align-self-start">
+                                        <a href="{{ route('view.my-edit', $personnel->id) }}" class="mt-n1" data-target="userAside">
+                                            <button class="btn btn bg-primary text-white">
+                                                <em class="icon ni ni-edit"></em><span>Edit</span>
+                                            </button>
+
+                                        </a>
+                                    </div>
+
                                 </div>
                             </div><!-- .nk-block-head -->
                             <div class="nk-block">
                                 <div class="nk-data data-list">
+                                    @if (session('success'))
+                                        <div class="alert alert-success">
+                                            {{ session('success') }}
+                                        </div>
+                                    @endif
+
+                                    @if (session('error'))
+                                        <div class="alert alert-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
                                     <div class="data-head">
                                         <h6 class="overline-title">Basics</h6>
                                     </div>
@@ -152,12 +173,14 @@
                                 <div class="card-inner p-0">
                                     <ul class="link-list-menu">
                                         <li><a class="active" href="{{ route('view.my-info') }}"><em class="icon ni ni-user-fill-c"></em><span>Personal Infomation</span></a></li>
-                                        <li><a href="{{ route('view.my-family') }}"><em class="icon ni ni-home-alt"></em><span>Family Member</span>
+                                        <li><a  href="{{  route('profile.edit')  }}"><em class="icon ni ni-account-setting-fill"></em><span>Update Account Details</span></a></li>
+                                        <li><a  href="{{ route('view.user-documents') }}"><em class="icon ni ni-file-text-fill"></em></em><span>Documents</span></a></li>
+                                        {{-- <li><a href="{{ route('view.my-family') }}"><em class="icon ni ni-home-alt"></em><span>Family Member</span>
                                         <li><a href="{{ route('view.my-education') }}"><em class="icon ni ni-reports-alt"></em><span>Education Background</span>
                                         <li><a href="{{ route('view.my-eligibility') }}"><em class="icon ni ni-note-add"></em><span>Eligibility</span>
                                         <li><a href="{{ route('view.my-experience') }}"><em class="icon ni ni-report-profit"></em><span>Work Experience</span>
                                         <li><a href="{{ route('view.my-volunteers') }}"><em class="icon ni ni-task"></em><span>Voluntary Works</span>
-                                        <li><a href="{{ route('view.my-trainings') }}"><em class="icon ni ni-award"></em></em><span>Trainings</span>
+                                        <li><a href="{{ route('view.my-trainings') }}"><em class="icon ni ni-award"></em></em><span>Trainings</span> --}}
                                     </ul>
                                 </div><!-- .card-inner -->
                             </div><!-- .card-inner-group -->

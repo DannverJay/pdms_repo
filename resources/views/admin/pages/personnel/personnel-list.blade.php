@@ -6,7 +6,7 @@
             <div class="nk-block-head-content">
                 <h4 class="nk-block-title">Personnel Lists</h4>
                 <div class="nk-block-des">
-                    <p>You have <strong class="text-danger">({{ $personnelCount }})</strong> in total.</p>
+                    <p>There are <strong class="text-danger">({{ $personnelCount }})</strong> personnel's in total.</p>
                 </div>
             </div>
             <div class="nk-block-head-content mt-2">
@@ -161,6 +161,12 @@
                                                         <a href="{{ route('view.personnel.profile',['id' => $personnel->id]) }}">
                                                             <em class="icon ni ni-eye"></em>
                                                             <span>Overview</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('view.profile', $personnel->id) }}">
+                                                            <em class="icon ni ni-user-circle"></em>
+                                                            <span>View Profile</span>
                                                         </a>
                                                     </li>
                                                     <li>

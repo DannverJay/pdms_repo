@@ -303,7 +303,7 @@
                                 <div class="card-title-group mb-3">
                                     <div class="card-title">
                                         <h6 class="title">Uploaded Document Per Document Type</h6>
-                                        <span class="fs-11px">These are the uploaded documents for documents issued in <em class="text-primary">{{ $previousYear }}</em></span>
+                                        <span class="fs-11px">These are the uploaded documents for documents issued in <em class="text-dark">{{ $previousYear }}</em></span>
                                     </div>
                                     {{-- <div class="card-tools mt-n4 me-n1">
                                         <div class="drodown"><a href="#"

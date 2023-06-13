@@ -31,6 +31,52 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    //My profile
+    Route::get('/my-profile', [UserRoleController::class, 'index'])->name('view.my-info');
+    Route::get('/personnel/{personnel}/edit', [UserRoleController::class, 'edit'])->name('view.my-edit');
+    Route::put('/personnel/{personnel}', [UserRoleController::class, 'update'])->name('view.my-update');
+
+    Route::get('/my-documents/latest', [UserRoleController::class, 'documents'])->name('view.user-documents');
+
+    Route::post('/my-documents/upload', [UserRoleController::class, 'upload'])->name('my-documents.upload');
+
+    //Fdamily
+    Route::get('/my-family-members', [UserRoleController::class, 'showFamily'])->name('view.my-family');
+    Route::post('/add-family-members', [UserRoleController::class, 'storeFamily'])->name('add.my-familyMember');
+    Route::put('/family/{id}', [UserRoleController::class, 'updateFamily'])->name('edit.my-familyMember');
+    Route::delete('/family/{id}', [UserRoleController::class, 'deleteFamily'])->name('delete.my-familyMember');
+    //Eduction
+    Route::get('/my-education', [UserRoleController::class, 'showEducation'])->name('view.my-education');
+    Route::post('my-profile/add-education', [UserRoleController::class, 'storeEducation'])->name('add.my-education');
+    Route::put('my-profile/education/update/{id}', [UserRoleController::class, 'updateEducation'])->name('edit.my-education');
+    Route::delete('my-profile/family/delete/{id}', [UserRoleController::class, 'deleteEducation'])->name('delete.my-education');
+    //Eligibility
+    Route::get('/my-eligibility', [UserRoleController::class, 'showEligibility'])->name('view.my-eligibility');
+    Route::post('my-profile/add-eligibility', [UserRoleController::class, 'storeEligibility'])->name('add.my-eligibility');
+    Route::put('my-profile/eligibility/update/{id}', [UserRoleController::class, 'updateEligibility'])->name('edit.my-eligibility');
+    Route::delete('my-profile/eligibility/delete/{id}', [UserRoleController::class, 'deleteEligibility'])->name('delete.my-eligibility');
+    //Work Experience
+    Route::get('/my-experience', [UserRoleController::class, 'showExperience'])->name('view.my-experience');
+    Route::post('my-profile/add-experience', [UserRoleController::class, 'storeExperience'])->name('add.my-experience');
+    Route::put('my-profile/experience/update/{id}', [UserRoleController::class, 'updateExperience'])->name('edit.my-experience');
+    Route::delete('my-profile/experience/delete/{id}', [UserRoleController::class, 'deleteExperience'])->name('delete.my-experience');
+    //Voluntary Works
+    Route::get('/my-volunteers', [UserRoleController::class, 'showVolunteers'])->name('view.my-volunteers');
+    Route::post('my-profile/add-voluntary-works', [UserRoleController::class, 'storeVoluntary'])->name('add.my-volunteers');
+    Route::put('my-profile/voluntary-works/update/{id}', [UserRoleController::class, 'updateVoluntary'])->name('edit.my-volunteers');
+    Route::delete('my-profile/voluntary-works/delete/{id}', [UserRoleController::class, 'deleteVoluntary'])->name('delete.my-volunteers');
+    //Trainings
+    Route::get('/my-trainings', [UserRoleController::class, 'showTrainings'])->name('view.my-trainings');
+    Route::post('my-profile/add-trainings', [UserRoleController::class, 'storeTrainings'])->name('add.my-trainings');
+    Route::put('my-profile/trainings/update/{id}', [UserRoleController::class, 'updateTrainings'])->name('edit.my-trainings');
+    Route::delete('my-profile/trainings/delete/{id}', [UserRoleController::class, 'deleteTrainings'])->name('delete.my-trainings');
+    //Documents
+    Route::get('/my-documents', [UserRoleController::class, 'showDocuments'])->name('view.my-document');
+    Route::get('/documents/{id}/preview', [UserRoleController::class, 'previewDocument'])->name('my-documents.preview');
+    Route::get('/documents/{id}/download', [UserRoleController::class, 'downloadDocument'])->name('my-documents.download');
+    Route::delete('/documents/{id}/delete', [UserRoleController::class, 'deleteDocument'])->name('my-documents.delete');
+
+
     Route::get('/dashboard', function () {
         if (auth()->user()->hasRole('admin')) {
             return redirect()->route('admin.dashboard');
@@ -44,47 +90,7 @@ Route::middleware(['auth'])->group(function () {
             return view('layouts.partials.user-content');
         })->name('dashboard');
 
-        Route::get('/my-profile', [UserRoleController::class, 'index'])->name('view.my-info');
-        Route::get('/personnel/{id}/edit', [UserRoleController::class, 'editProfile'])->name('personnel.edit');
-        Route::put('/personnel/{id}', [UserRoleController::class, 'update'])->name('personnel.update');
 
-
-        Route::post('/documents/upload', [UserRoleController::class, 'upload'])->name('my-documents.upload');
-        //Fdamily
-        Route::get('/my-family-members', [UserRoleController::class, 'showFamily'])->name('view.my-family');
-        Route::post('/add-family-members', [UserRoleController::class, 'storeFamily'])->name('add.my-familyMember');
-        Route::put('/family/{id}', [UserRoleController::class, 'updateFamily'])->name('edit.my-familyMember');
-        Route::delete('/family/{id}', [UserRoleController::class, 'deleteFamily'])->name('delete.my-familyMember');
-        //Eduction
-        Route::get('/my-education', [UserRoleController::class, 'showEducation'])->name('view.my-education');
-        Route::post('my-profile/add-education', [UserRoleController::class, 'storeEducation'])->name('add.my-education');
-        Route::put('my-profile/education/update/{id}', [UserRoleController::class, 'updateEducation'])->name('edit.my-education');
-        Route::delete('my-profile/family/delete/{id}', [UserRoleController::class, 'deleteEducation'])->name('delete.my-education');
-        //Eligibility
-        Route::get('/my-eligibility', [UserRoleController::class, 'showEligibility'])->name('view.my-eligibility');
-        Route::post('my-profile/add-eligibility', [UserRoleController::class, 'storeEligibility'])->name('add.my-eligibility');
-        Route::put('my-profile/eligibility/update/{id}', [UserRoleController::class, 'updateEligibility'])->name('edit.my-eligibility');
-        Route::delete('my-profile/eligibility/delete/{id}', [UserRoleController::class, 'deleteEligibility'])->name('delete.my-eligibility');
-        //Work Experience
-        Route::get('/my-experience', [UserRoleController::class, 'showExperience'])->name('view.my-experience');
-        Route::post('my-profile/add-experience', [UserRoleController::class, 'storeExperience'])->name('add.my-experience');
-        Route::put('my-profile/experience/update/{id}', [UserRoleController::class, 'updateExperience'])->name('edit.my-experience');
-        Route::delete('my-profile/experience/delete/{id}', [UserRoleController::class, 'deleteExperience'])->name('delete.my-experience');
-        //Voluntary Works
-        Route::get('/my-volunteers', [UserRoleController::class, 'showVolunteers'])->name('view.my-volunteers');
-        Route::post('my-profile/add-voluntary-works', [UserRoleController::class, 'storeVoluntary'])->name('add.my-volunteers');
-        Route::put('my-profile/voluntary-works/update/{id}', [UserRoleController::class, 'updateVoluntary'])->name('edit.my-volunteers');
-        Route::delete('my-profile/voluntary-works/delete/{id}', [UserRoleController::class, 'deleteVoluntary'])->name('delete.my-volunteers');
-        //Trainings
-        Route::get('/my-trainings', [UserRoleController::class, 'showTrainings'])->name('view.my-trainings');
-        Route::post('my-profile/add-trainings', [UserRoleController::class, 'storeTrainings'])->name('add.my-trainings');
-        Route::put('my-profile/trainings/update/{id}', [UserRoleController::class, 'updateTrainings'])->name('edit.my-trainings');
-        Route::delete('my-profile/trainings/delete/{id}', [UserRoleController::class, 'deleteTrainings'])->name('delete.my-trainings');
-        //Documents
-        Route::get('/my-documents', [UserRoleController::class, 'showDocuments'])->name('view.my-document');
-        Route::get('/documents/{id}/preview', [UserRoleController::class, 'previewDocument'])->name('my-documents.preview');
-        Route::get('/documents/{id}/download', [UserRoleController::class, 'downloadDocument'])->name('my-documents.download');
-        Route::delete('/documents/{id}/delete', [UserRoleController::class, 'deleteDocument'])->name('my-documents.delete');
     });
 
     Route::middleware(['role:admin'])->group(function () {
@@ -115,13 +121,46 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/personnel/inactive', [PersonnelController::class, 'getInactive'])->name('personnel.inactive');
         Route::delete('/personnel/{id}', [PersonnelController::class, 'delete'])->name('personnel.delete');
 
-
+        //Profile Summary
         Route::get('/view/personnel-profile/{id}', [PersonnelController::class, 'view'])->name('view.personnel.profile');
 
         Route::get('/personnel/create', [App\Http\Controllers\PersonnelProfileController::class, 'create'])->name('personnel.create');
         Route::post('/personnel/store', [App\Http\Controllers\PersonnelProfileController::class, 'store'])->name('personnel.store');
 
+        // Personnel Profile Full View
+        Route::get('/personnel-profile/{personnel}/view', [PersonnelProfileController::class, 'showProfile'])->name('view.profile');
+        Route::get('/edit/personnel/{personnel_id}', [PersonnelProfileController::class, 'edit'])->name('edit.personnel');
+        Route::put('/personnel/{personnel_id}', [PersonnelProfileController::class, 'update'])->name('update.personnel');
 
+        // Personnel-Profile View: FamilyBackground
+        Route::post('/personnel/{personnel}/view/family-member', [PersonnelProfileController::class, 'createFamilyMember'])->name('add.new-member');
+        Route::put('personnel/family-background/{familyBackground}/edit', [PersonnelProfileController::class, 'updateFamilyMember'])->name('edit.family-member');
+        Route::delete('personnel/family-members/{id}/delete', [PersonnelProfileController::class, 'deleteFamilyMember'])->name('delete.family-member');
+
+        // Personnel-Profile View: EducationBackground
+        Route::post('/personnel/{personnel}/view/education', [\App\Http\Controllers\EducationBackgroundController::class, 'createEducationBackground'])->name('add.education');
+        Route::put('personnel/education-background/{educationBackground}/edit', [\App\Http\Controllers\EducationBackgroundController::class, 'updateEducationBackground'])->name('edit.education');
+        Route::delete('personnel/education-background/{id}/delete', [\App\Http\Controllers\EducationBackgroundController::class, 'deleteEducationBackground'])->name('delete.education');
+
+        // Personnel-Profile View: Eligibility
+        Route::post('personnel/{personnel}/view/eligibilities', [\App\Http\Controllers\EligibilityController::class, 'createEligibility'])->name('add.eligibility');
+        Route::put('personnel/eligibilities/{eligibility}/edit', [\App\Http\Controllers\EligibilityController::class, 'updateEligibility'])->name('edit.eligibility');
+        Route::delete('personnel/eligibilities/{eligibility}/delete', [\App\Http\Controllers\EligibilityController::class, 'deleteEligibility'])->name('delete.eligibility');
+
+        // Personnel-Profile View: Work Experience
+        Route::post('/personnel/{personnel}/view/work-experiences', [\App\Http\Controllers\WorkExperienceController::class, 'createWorkExperience'])->name('add.work-experience');
+        Route::put('personnel/work-experiences/{workExperience}/edit', [\App\Http\Controllers\WorkExperienceController::class, 'updateWorkExperience'])->name('edit.work-experience');
+        Route::delete('personnel/work-experiences/{id}/delete', [\App\Http\Controllers\WorkExperienceController::class, 'deleteWorkExperience'])->name('delete.work-experience');
+
+        // Personnel-Profile View: Voluntary Work
+        Route::post('/personnel/{personnel}/view/voluntary-work', [\App\Http\Controllers\VoluntaryWorkController::class, 'createVoluntaryWork'])->name('add.voluntary_work');
+        Route::put('/personnelvoluntary-work/{voluntaryWork}/edit', [\App\Http\Controllers\VoluntaryWorkController::class, 'updateVoluntaryWork'])->name('edit.voluntary_work');
+        Route::delete('/personnel/voluntary-work/{id}/delete', [\App\Http\Controllers\VoluntaryWorkController::class, 'deleteVoluntaryWork'])->name('delete.voluntary_work');
+
+        // Personnel-Profile View: Trainings
+        Route::post('/personnel/{personnel}/view/training', [\App\Http\Controllers\TrainingController::class, 'createTraining'])->name('add.training');
+        Route::put('personnel/training/{training}/edit', [\App\Http\Controllers\TrainingController::class, 'updateTraining'])->name('edit.training');
+        Route::delete('personnel/training/{id}/delete', [\App\Http\Controllers\TrainingController::class, 'deleteTraining'])->name('delete.training');
 
         //View Document Page /Personnel Profile
         Route::get('/view/personnel-documents/{id}', [PersonnelController::class, 'viewDocuments'])->name('view.personnel.documents');
@@ -132,44 +171,8 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/personnel-profile/documents/delete/{id}', [PersonnelController::class, 'deleteDocument'])->name('documents.delete');
         Route::get('/personnel-profile/documents/{id}/download', [PersonnelController::class, 'downloadDocument'])->name('documents.download');
         Route::get('/personnel-profile/documents/{id}/preview', [PersonnelController::class, 'previewDocument'])->name('documents.preview');
-        //change pass
-        Route::get('personnel/{id}/change-password', [PersonnelController::class, 'changePassForm'])->name('change-password');
-        Route::post('personnel/{id}/change-password', [PersonnelController::class, 'changePass'])->name('view.personnel.change-password');
-        //change email
-        Route::get('/view/personnel/{id}/account-setting', [PersonnelController::class, 'accountSetting'])->name('view.personnel.account-setting');
-        Route::post('/view/personnel/{id}/update-email', [PersonnelController::class, 'updateEmail'])->name('view.update-email');
-
-        Route::get('/personnel-profile/{personnel}/view', [PersonnelProfileController::class, 'showProfile'])->name('view.profile');
-        Route::get('/edit/personnel/{personnel_id}', [PersonnelProfileController::class, 'edit'])->name('edit.personnel');
-        Route::put('/personnel/{personnel_id}', [PersonnelProfileController::class, 'update'])->name('update.personnel');
 
 
-
-
-        //Personnel-Profile View: FamilyBackground
-        Route::post('/personnel/{personnel}/view/family-member', [PersonnelProfileController::class, 'createFamilyMember'])->name('add.new-member');
-        Route::put('personnel/family-background/{familyBackground}/edit', [PersonnelProfileController::class, 'updateFamilyMember'])->name('edit.family-member');
-        Route::delete('personnel/family-members/{id}/delete', [PersonnelProfileController::class, 'deleteFamilyMember'])->name('delete.family-member');
-        //Personnel-Profile View: EducationBackground
-        Route::post('/personnel/{personnel}/view/education', [\App\Http\Controllers\EducationBackgroundController::class, 'createEducationBackground'])->name('add.education');
-        Route::put('personnel/education-background/{educationBackground}/edit', [\App\Http\Controllers\EducationBackgroundController::class, 'updateEducationBackground'])->name('edit.education');
-        Route::delete('personnel/education-background/{id}/delete', [\App\Http\Controllers\EducationBackgroundController::class, 'deleteEducationBackground'])->name('delete.education');
-        //Personnel-Profile View: Eligibility
-        Route::post('personnel/{personnel}/view/eligibilities', [\App\Http\Controllers\EligibilityController::class, 'createEligibility'])->name('add.eligibility');
-        Route::put('personnel/eligibilities/{eligibility}/edit', [\App\Http\Controllers\EligibilityController::class, 'updateEligibility'])->name('edit.eligibility');
-        Route::delete('personnel/eligibilities/{eligibility}/delete', [\App\Http\Controllers\EligibilityController::class, 'deleteEligibility'])->name('delete.eligibility');
-        //Personnel-Profile View: Work Experience
-        Route::post('/personnel/{personnel}/view/work-experiences', [\App\Http\Controllers\WorkExperienceController::class, 'createWorkExperience'])->name('add.work-experience');
-        Route::put('personnel/work-experiences/{workExperience}/edit', [\App\Http\Controllers\WorkExperienceController::class, 'updateWorkExperience'])->name('edit.work-experience');
-        Route::delete('personnel/work-experiences/{id}/delete', [\App\Http\Controllers\WorkExperienceController::class, 'deleteWorkExperience'])->name('delete.work-experience');
-        //Personnel-Profile View: Voluntary Work
-        Route::post('/personnel/{personnel}/view/voluntary-work', [\App\Http\Controllers\VoluntaryWorkController::class, 'createVoluntaryWork'])->name('add.voluntary_work');
-        Route::put('/personnelvoluntary-work/{voluntaryWork}/edit', [\App\Http\Controllers\VoluntaryWorkController::class, 'updateVoluntaryWork'])->name('edit.voluntary_work');
-        Route::delete('/personnel/voluntary-work/{id}/delete', [\App\Http\Controllers\VoluntaryWorkController::class, 'deleteVoluntaryWork'])->name('delete.voluntary_work');
-        //Personnel-Profile View:Trainngs
-        Route::post('/personnel/{personnel}/view/training', [\App\Http\Controllers\TrainingController::class, 'createTraining'])->name('add.training');
-        Route::put('personnel/training/{training}/edit', [\App\Http\Controllers\TrainingController::class, 'updateTraining'])->name('edit.training');
-        Route::delete('personnel/training/{id}/delete', [\App\Http\Controllers\TrainingController::class, 'deleteTraining'])->name('delete.training');
 
         //Document Resource
         Route::get('/document-listing', [DocumentController::class, 'index'])->name('view.documents-lists');
@@ -181,12 +184,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/user-listing', [UserController::class, 'showUser'])->name('user.lists');
         Route::get('/users-manage/{user}/view-profile', [UserController::class, 'show'])->name('users.show');
 
+        //User management - Add User
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
         Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.delete');
+        //User Management - edit user
+        Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
 
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         //SMS
         Route::any('send-sms', [SMSController::class, 'send'])->name('send.sms');
@@ -201,8 +205,31 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
-    //Support
+
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+    //Support - Admin Guide
     Route::get('/faqs', [SupportController::class, 'faq'])->name('support.faqs');
+    Route::get('/user-guide', [SupportController::class, 'userGuide'])->name('support.user-guide');
+
+    Route::get('/user-guide/introduction', [SupportController::class, 'intro'])->name('support.user-guide.intro');
+    Route::get('/user-guide/personnel-list', [SupportController::class, 'personnelList'])->name('support.user-guide.personnel');
+    Route::get('/user-guide/user-manager', [SupportController::class, 'userManager'])->name('support.user-guide.user-manage');
+    Route::get('/user-guide/roles-permissions', [SupportController::class, 'roles'])->name('support.user-guide.roles');
+    Route::get('/user-guide/documentation', [SupportController::class, 'documentation'])->name('support.user-guide.documentation');
+    Route::get('/user-guide/faqs', [SupportController::class, 'faqsGuide'])->name('support.user-guide.faqs');
+
+    //Support - User Guide
+    Route::get('/user-guide/regular-users', [SupportController::class, 'regularUsers'])->name('support.regular-user.guide');
+    Route::get('/user-guide/regular-users/introduction', [SupportController::class, 'userIntro'])->name('support.reg-guide.intro');
+    Route::get('/user-guide/regular-users/my-profile', [SupportController::class, 'myProfile'])->name('support.reg-guide.profile');
+    Route::get('/user-guide/regular-users/my-documents', [SupportController::class, 'myDocuments'])->name('support.reg-guide.documents');
+    Route::get('/user-guide/regular-users/change-account-details', [SupportController::class, 'changeDetails'])->name('support.reg-guide.account');
+
 });
 
 
