@@ -74,54 +74,12 @@
 
                             <td class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
-                                    <li class="nk-tb-action-hidden">
-                                        <a href="{{ route('view.personnel.profile', ['id' => $personnel->id]) }}"
-                                            class="btn btn-trigger btn-icon" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" title="View Details">
-                                            <em class="icon ni ni-eye-fill"></em>
-                                        </a>
-                                    </li>
-                                    <li class="nk-tb-action-hidden">
-                                        <a href="{{ route('send.sms', ['mobile_no' => $personnel->mobile_no]) }}" class="btn btn-trigger btn-icon" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" title="Send SMS">
-                                            <em class="icon ni ni-comments"></em>
-                                        </a>
-                                    </li>
-                                    <li class="nk-tb-action-hidden">
-                                        <a href="#" class="btn btn-trigger btn-icon" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" title="Archive">
-                                            <em class="icon ni ni-archived-fill"></em>
-                                        </a>
-                                    </li>
+                                   
+
                                     <li>
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger"
-                                                data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a
-                                                            href="{{ route('view.personnel.profile',['id' => $personnel->id]) }}"><em
-                                                                class="icon ni ni-eye"></em><span>Overview</span></a>
-                                                    </li>
-                                                    <li><a href="{{ route('edit.personnel', $personnel->id) }}"><em
-                                                                class="icon ni ni-edit"></em><span>Update
-                                                                Details</span></a></li>
-                                                    <li><a href="#"><em
-                                                                class="icon ni ni-account-setting-alt"></em><span>Account
-                                                                Settings</span></a></li>
-                                                    <li class="divider"></li>
-                                                    <li><a
-                                                            href="{{ route('view.personnel.documents', ['id' => $personnel->id]) }}"><em
-                                                                class="icon ni ni-folder-list"></em><span>Documents</span></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="{{ route('send.sms', ['mobile_no' => $personnel->mobile_no]) }}"
+                                        <a href="{{ route('send.sms', ['mobile_no' => $personnel->mobile_no]) }}"
                                                             class="dropdown-toggle"><em class="icon ni ni-comments"></em>
                                                             <span>Send SMS</span></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
                                     </li>
                                 </ul>
                             </td>

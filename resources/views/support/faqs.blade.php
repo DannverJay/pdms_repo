@@ -95,24 +95,7 @@
                                     </div>
                                 </div>
                             </div><!-- .accordion-item -->
-                            <div class="accordion-item">
-                                <a href="#" class="accordion-head collapsed" data-bs-toggle="collapse"
-                                    data-bs-target="#faq-q5">
-                                    <h6 class="title"></h6>
-                                    <span class="accordion-icon"></span>
-                                </a>
-                                <div class="accordion-body collapse" id="faq-q5" data-bs-parent="#faqs">
-                                    <div class="accordion-inner">
-                                        <p>If you want to ask questions about our product, or need help using our item
-                                            you’ve purchased or just want to tell us how much you love our work, that's
-                                            great!</p>
-                                        <p>Contact us via email <a
-                                                href="mailto:info@softnio.com">info(at)softnio.com</a> or Post your
-                                            comment (are visible to everyone) on our item page after login into your
-                                            account.</p>
-                                    </div>
-                                </div>
-                            </div><!-- .accordion-item -->
+                          
                         </div><!-- .accordion -->
                     </div><!-- .card -->
                 </div><!-- .nk-block -->
