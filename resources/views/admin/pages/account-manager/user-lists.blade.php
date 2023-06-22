@@ -75,7 +75,15 @@
                                     <span>{{ $user->email }}</span>
                                 </td>
                                 <td class="nk-tb-col tb-col-lg">
-                                    <span class="badge badge-dot bg-primary">
+                                    <span class="badge
+                                        @foreach ($user->roles as $role)
+                                            @if ($role->name == 'admin')
+                                                badge-dot text-info
+                                            @else
+                                                badge-dot text-primary
+                                            @endif
+                                        @endforeach
+                                    ">
                                         @foreach ($user->roles as $role)
                                             {{ $role->name }}
                                             @unless ($loop->last)
@@ -84,6 +92,7 @@
                                         @endforeach
                                     </span>
                                 </td>
+
                                 <td class="nk-tb-col tb-col-lg">
                                     <span>{{ $user->created_at->format('M d, Y') }}</span>
                                 </td>
