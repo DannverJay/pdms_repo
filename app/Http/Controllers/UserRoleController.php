@@ -154,13 +154,17 @@ public function documents()
 
     public function update(Request $request, Personnel $personnel)
     {
-        $personnel->update($request->all());
+        $requestData = $request->all();
+        $requestData['birth_date'] = Carbon::createFromFormat('m/d/Y', $requestData['birth_date'])->format('Y-m-d');
+
+        $personnel->update($requestData);
 
         // You can add any additional logic or validation here if needed.
 
         return redirect()->route('view.my-info', $personnel->id)
             ->with('success', 'Personnel record updated successfully!');
     }
+
 
     // Show documents of the authenticated user
     public function showDocuments()

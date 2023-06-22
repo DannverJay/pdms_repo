@@ -1,3 +1,7 @@
+@php
+$uploadedDocumentsCount = count($documents);
+@endphp
+
 @extends('admin.index')
 
 @section('page')
@@ -21,9 +25,10 @@
                                         <a href="#" class="toggle btn btn-icon btn-trigger mt-n1"
                                             data-target="userAside"><em class="icon ni ni-menu-alt-r"></em></a>
                                     </div>
-                                    <div class="nk-block-head-content align-self-start">
-                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Upload">Upload</button>
-                                    </div>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Upload" @if($uploadedDocumentsCount >= 10) disabled onclick="alert('Already uploaded all required documents.');" @endif>
+                                        Upload
+                                    </button>
+
                                     <div class="modal fade" tabindex="-1" id="Upload">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -53,12 +58,12 @@
                                                         <div class="form-group">
                                                             <div class="col-sm-12">
                                                                 <label class="form-label">File Upload</label>
-                                                                <input type="file" class="form-control" id="file" name="file" required>
+                                                                <input type="file" class="form-control" id="file" name="file" accept=".pdf, .jpeg, .jpg, .png" required>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-sm-12">
-                                                                <button type="submit" class="btn btn-primary">Add Document</button>
+                                                                <button type="submit" class="btn btn-primary" onclick="return validateFileType()">Add Document</button>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -173,8 +178,9 @@
                                         </div>
                                         <div class="col-6">
                                             <span class="sub-text">Work Status</span>
-                                            <span class="lead-text text-success">{{ Auth::user()->personnel->status }} /
-                                                On Duty</span>
+                                            <span class="lead-text <?php echo (Auth::user()->personnel->status === 'active') ? 'text-success' : 'text-danger'; ?>">
+                                                {{ Auth::user()->personnel->status }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div><!-- .card-inner -->
@@ -212,4 +218,19 @@
         </div>
     </div>
 </div>
+
+<script>
+    function validateFileType() {
+        var fileInput = document.getElementById('file');
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.pdf|\.jpeg|\.jpg|\.png)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type. Only PDF, JPEG, JPG, and PNG files are allowed.');
+            fileInput.value = '';
+            return false;
+        }
+        return true;
+    }
+</script>
 @endsection

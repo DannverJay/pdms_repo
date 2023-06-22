@@ -30,7 +30,7 @@
                     </div><!-- .nk-block-between -->
                 </div>
                 <div class="nk-block nk-block-lg">
-                    <form action="{{ route('view.my-update', $personnel->id) }}" method="POST" enctype="multipart/form-data">
+                    <form id="my-form" action="{{ route('view.my-update', $personnel->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card card-bordered card-preview">
@@ -72,7 +72,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="birth_date">Date of Birth <span class="text-danger"> *</span></label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control date-picker-alt" id="birth_date" name="birth_date" value="{{ $personnel->birth_date }}" required>
+                                                    <input type="text" class="form-control date-picker-alt" id="birth_date" name="birth_date" value="{{ \Carbon\Carbon::parse($personnel->birth_date)->format('m/d/Y') }}" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -89,7 +89,7 @@
                                                 <label class="form-label" for="gender">Gender <span class="text-danger"> *</span></label>
                                                 <div class="form-control-wrap">
                                                     <select class="form-select js-select2" id="gender" name="gender" required>
-                                                        <option value="None">Select Gender</option>
+                                                        <option value="">Select Gender</option>
                                                         <option value="Male" @if($personnel->gender == 'Male') selected @endif>Male</option>
                                                         <option value="Female" @if($personnel->gender == 'Female') selected @endif>Female</option>
                                                     </select>
@@ -101,9 +101,10 @@
                                                 <label class="form-label" for="civil_status">Civil Status <span class="text-danger"> *</span></label>
                                                 <div class="form-control-wrap">
                                                     <select class="form-select js-select2" id="civil_status" name="civil_status"  required>
-                                                    <option value="Single" {{ $personnel->civil_status == 'Single' ? 'selected' : '' }}>Single</option>
-                                                    <option value="Married" {{ $personnel->civil_status == 'Married' ? 'selected' : '' }}>Married</option>
-                                                    <option value="Divorced" {{ $personnel->civil_status == 'Divorced' ? 'selected' : '' }}>Divorced</option>
+                                                        <option value="">Select Civil Status</option>
+                                                        <option value="Single" {{ $personnel->civil_status == 'Single' ? 'selected' : '' }}>Single</option>
+                                                        <option value="Married" {{ $personnel->civil_status == 'Married' ? 'selected' : '' }}>Married</option>
+                                                        <option value="Divorced" {{ $personnel->civil_status == 'Divorced' ? 'selected' : '' }}>Divorced</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -121,7 +122,7 @@
                                                 <label class="form-label" for="blood_type">Blood Type</label>
                                                 <div class="form-control-wrap">
                                                     <select class="form-select js-select2" id="blood_type" name="blood_type">
-                                                        <option value="None">Select Blood Type</option>
+                                                        <option value="">Select Blood Type</option>
                                                         <option value="A+" {{ $personnel->blood_type == 'A+' ? 'selected' : '' }}>A+</option>
                                                         <option value="A-" {{ $personnel->blood_type == 'A-' ? 'selected' : '' }}>A-</option>
                                                         <option value="B+" {{ $personnel->blood_type == 'B+' ? 'selected' : '' }}>B+</option>
@@ -162,7 +163,10 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="mobile_no">Mobile No.</label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" id="mobile_no" name="mobile_no" value="{{ $personnel->mobile_no }}" required>
+                                                    <input type="text" class="form-control" id="mobile_no" name="mobile_no" value="{{ $personnel->mobile_no }}" required pattern="^(09|\+639)\d{9}$">
+                                                    <div class="invalid-feedback">
+                                                        Please enter a valid Philippine mobile number.
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -215,7 +219,7 @@
                                     <div class="row gy-4">
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label class="form-label" for="home_province">Province <span class="text-danger"> *</span></label>
+                                                <label class="form-label" for="home_province">Province</label>
                                                 <div class="form-control-wrap">
                                                     <input type="text" class="form-control" id="home_province" value="{{ $personnel->home_province }}" name="home_province">
                                                 </div>
@@ -223,7 +227,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label class="form-label" for="home_city">City / Municipality <span class="text-danger"> *</span></label>
+                                                <label class="form-label" for="home_city">City / Municipality</label>
                                                 <div class="form-control-wrap">
                                                     <input type="text" class="form-control" id="home_city" value="{{ $personnel->home_city }}" name="home_city">
                                                 </div>
@@ -231,7 +235,7 @@
                                         </div>
                                         <div class="col-sm-8">
                                             <div class="form-group">
-                                                <label class="form-label" for="home_street">Street / House # / Bldg. / Floor & Unit <span class="text-danger"> *</span></label>
+                                                <label class="form-label" for="home_street">Street / House # / Bldg. / Floor & Unit</label>
                                                 <div class="form-control-wrap">
                                                     <input type="text" class="form-control" id="home_street" value="{{ $personnel->home_street }}" name="home_street">
                                                 </div>
@@ -239,7 +243,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label class="form-label" for="home_zip">Zip Code <span class="text-danger"> *</span></label>
+                                                <label class="form-label" for="home_zip">Zip Code</label>
                                                 <div class="form-control-wrap">
                                                     <input type="text" class="form-control" id="home_zip" value="{{ $personnel->home_zip }}" name="home_zip">
                                                 </div>
@@ -261,7 +265,7 @@
                                                 <label class="form-label" for="ranks">Rank <span class="text-danger"> *</span></label>
                                                 <div class="form-control-wrap">
                                                     <select class="form-select js-select2" id="ranks" name="ranks" data-placeholder="Rank" required>
-                                                        <option>Select Rank</option>
+                                                        <option value="">Select Rank</option>
                                                         <option{{ $personnel->ranks === 'Patrolman' ? ' selected' : '' }}>Patrolman</option>
                                                         <option{{ $personnel->ranks === 'Patrolwoman' ? ' selected' : '' }}>Patrolwoman</option>
                                                         <option{{ $personnel->ranks === 'Police Corporal' ? ' selected' : '' }}>Police Corporal</option>
@@ -314,7 +318,7 @@
                                                 <label class="form-label" for="status">Status <span class="text-danger"> *</span></label>
                                                 <div class="form-control-wrap">
                                                     <select class="form-select js-select2" id="personnel-status" name="status" data-placeholder="Status" required>
-                                                        <option>Select Status</option>
+                                                        <option value="">Select Status</option>
                                                         <option{{ $personnel->status === 'Active' ? ' selected' : '' }}>Active</option>
                                                         <option{{ $personnel->status === 'Inactive' ? ' selected' : '' }}>Inactive</option>
                                                     </select>
@@ -338,4 +342,37 @@
     </div>
 </div>
 
+<script>
+    // Function to manually trigger form validation
+    function triggerFormValidation() {
+        var form = document.getElementById("my-form");
+        if (form) {
+            if (typeof form.reportValidity === "function") {
+                form.reportValidity();
+            } else {
+                form.checkValidity();
+            }
+        }
+    }
+
+    // Function to validate the mobile number input
+    function validateMobileNumber() {
+        var mobileNoInput = document.getElementById("mobile_no");
+        var mobileNoValue = mobileNoInput.value.trim();
+
+        // Check if the input matches the Philippine mobile number pattern
+        if (!mobileNoInput.validity.valid) {
+            mobileNoInput.classList.add("is-invalid");
+        } else {
+            mobileNoInput.classList.remove("is-invalid");
+        }
+    }
+
+    // Add an event listener to the input field for real-time validation
+    var mobileNoInput = document.getElementById("mobile_no");
+    mobileNoInput.addEventListener("input", function() {
+        validateMobileNumber();
+        triggerFormValidation();
+    });
+</script>
 @endsection

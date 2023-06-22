@@ -103,7 +103,7 @@
                     <tbody>
                         @foreach ($documents as $document)
                         <tr class="nk-tb-item">
-                            
+
                             <td class="nk-tb-col">
                                 <span> <a href="{{ route('documents.download', $document->id) }}">{{ $document->file_name }}</a></span>
                             </td>
