@@ -169,12 +169,7 @@
                                                             <span>View Profile</span>
                                                         </a>
                                                     </li>
-                                                    <li>
-                                                        <a href="{{ route('edit.personnel', ['user_id' => $personnel->user->id, 'personnel_id' => $personnel->id]) }}">
-                                                            <em class="icon ni ni-edit"></em>
-                                                            <span>Update Details</span>
-                                                        </a>
-                                                    </li>
+                                                   
                                                     <li class="divider"></li>
                                                     <li>
                                                         <a href="{{ route('view.personnel.documents', ['id' => $personnel->id]) }}">
