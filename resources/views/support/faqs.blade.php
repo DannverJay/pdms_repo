@@ -10,7 +10,7 @@
                         <h2 class="nk-block-title fw-normal">Frequently Asked Questions</h2>
                         <div class="nk-block-des">
                             <p class="lead">Got a question? Can't find the answer you're looking for? Don't worry, drop
-                                us a line on our contact email.</p>
+                                us a line by clicking the Get Support Now Button below.</p>
                         </div>
                     </div>
                 </div><!-- .nk-block-head -->
@@ -95,7 +95,7 @@
                                     </div>
                                 </div>
                             </div><!-- .accordion-item -->
-                          
+
                         </div><!-- .accordion -->
                     </div><!-- .card -->
                 </div><!-- .nk-block -->
@@ -147,12 +147,12 @@
                                 <div class="nk-block-content">
                                     <div class="nk-block-content-head px-lg-4">
                                         <h5>We’re here to help you!</h5>
-                                        <p class="text-soft">Ask a question or file a support ticket, manage request,
+                                        <p class="text-soft">Ask a question or ,
                                             report an issues. Our team support team will get back to you by email.</p>
                                     </div>
                                 </div>
                                 <div class="nk-block-content flex-shrink-0">
-                                    <a href="#" class="btn btn-lg btn-outline-primary">Get Support Now</a>
+                                    <a href="https://forms.gle/ge1sXnq8XnC4UcH88" class="btn btn-lg btn-outline-primary">Get Support Now</a>
                                 </div>
                             </div>
                         </div><!-- .card-inner -->

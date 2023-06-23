@@ -133,14 +133,6 @@
                                             <img src="{{ asset('assets/auth/images/guides/documents-action.png') }}" alt="personnel-list-filter.png">
                                         </div>
 
-                                        <div class="content mt-5">
-
-                                            <p>You can also upload documents for that specific personnel by clicking the upload button in the upper right side of</p>
-                                        </div>
-
-                                        <div class="image image-lg">
-                                            <img src="{{ asset('assets/auth/images/guides/upload.png') }}" alt="personnel-list-filter.png">
-                                        </div>
 
                                         <div class="content mt-5">
 

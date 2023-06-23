@@ -178,9 +178,11 @@ $uploadedDocumentsCount = count($documents);
                                         </div>
                                         <div class="col-6">
                                             <span class="sub-text">Work Status</span>
-                                            <span class="lead-text <?php echo (Auth::user()->personnel->status === 'active') ? 'text-success' : 'text-danger'; ?>">
-                                                {{ Auth::user()->personnel->status }}
-                                            </span>
+                                            @if(Auth::user()->personnel->status === 'Active')
+                                            <span class="text-success">{{ Auth::user()->personnel->status }}</span>
+                                            @elseif($personnel->status === 'Inactive')
+                                            <span class="text-danger">{{ Auth::user()->personnel->status }}</span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div><!-- .card-inner -->

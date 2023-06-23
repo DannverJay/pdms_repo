@@ -24,7 +24,7 @@
 						<div class="container header-container">
 							<div class="header-wrap">
 								<div class="header-logo">
-									<a href="html/index.html" class="logo-link">
+									<a href="#" class="logo-link">
 										<img class="logo-light logo-img" src="{{ asset('landing/assets/images/logo-dark.png') }}" alt="logo" />
 									</a>
 								</div>
@@ -38,7 +38,7 @@
 								<nav class="header-menu" data-content="mainNav">
 									<ul class="menu-list ms-lg-auto">
 										<li class="menu-item active"><a href="#home" class="menu-link nav-link">Home</a></li>
-										<li class="menu-item"><a href="#reviews" class="menu-link nav-link">FAQ</a></li>
+										
 									</ul>
 									<ul class="menu-btns">
                                         @auth

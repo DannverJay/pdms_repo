@@ -17,7 +17,6 @@
                 <div class="col-xl-12">
                     <div class="card card-bordered">
                         <div class="card-inner card-inner-lg">
-
                             <div class="entry">
                                 <div class="nk-cov-feature-group">
                                     <h4 class="title text-primary">Documentation</h4>
@@ -37,16 +36,12 @@
 
                                     <div class="row mt-4">
                                         <div class="col">
-                                            <a href="{{ route('support.user-guide.personnel') }}" class="justify-start">
+                                            <a href="{{ route('support.user-guide.user-manage') }}" class="justify-start">
                                                 <button class="btn btn-outline-primary">Previous</button>
                                             </a>
                                         </div>
 
-                                        <div class="col">
-                                            <a href="{{ route('support.user-guide.documentation') }}" class="justify-end">
-                                                <button class="btn btn-outline-primary">Next</button>
-                                            </a>
-                                        </div>
+                                    \
                                     </div>
                                 </div>
 

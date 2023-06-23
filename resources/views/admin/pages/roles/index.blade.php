@@ -77,8 +77,10 @@
                         <td>
                             @if ($role->permissions)
                                 @foreach ($role->permissions as $role_permission)
-
-                                <form id="delete-role-form-{{ $role->id }}"
+                                <span class="badge badge-dim bg-outline-primary rounded-pill" >
+                                    {{ $role_permission->name }}
+                                </span>
+                                {{-- <form id="delete-role-form-{{ $role->id }}"
                                     action="{{ route('roles.permissions.revoke', [$role->id, $role_permission->id]) }}" method="POST"
                                     style="display: inline;">
                                     @csrf
@@ -86,7 +88,7 @@
                                         <span class="badge btn btn-dim btn-outline-primary rounded-pill bg-outline-info" onclick="event.preventDefault(); if(confirm('Are you sure?')) document.getElementById('delete-role-form-{{ $role->id }}').submit();">
                                             {{ $role_permission->name }}
                                         </span>
-                                </form>
+                                </form> --}}
                                 @endforeach
                             @endif
                         </td>

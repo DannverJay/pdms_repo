@@ -205,17 +205,23 @@
                                         </div>
                                         <div class="col-6">
                                             <span class="sub-text">Work Status</span>
-                                            <span class="lead-text <?php echo (Auth::user()->personnel->status === 'active') ? 'text-success' : 'text-danger'; ?>">
-                                                {{ Auth::user()->personnel->status }}
-                                            </span>
+                                            @if($personnel->status === 'Active')
+                                            <span class="text-success">{{ ($personnel->status) }}</span>
+                                            @elseif($personnel->status === 'Inactive')
+                                            <span class="text-danger">{{ ($personnel->status) }}</span>
+                                            @endif
                                         </div>
 
                                     </div>
                                 </div><!-- .card-inner -->
                                 <div class="card-inner p-0">
                                     <ul class="link-list-menu">
-                                        <li><a class="active" href="{{ route('view.my-info') }}"><em class="icon ni ni-user-fill-c"></em><span>Personal Infomation</span></a></li>
-                                        <li><a  href="{{  route('profile.edit')  }}"><em class="icon ni ni-account-setting-fill"></em><span>Update Account Details</span></a></li>
+                                        @can('read')
+                                            <li><a class="active" href="{{ route('view.my-info') }}"><em class="icon ni ni-user-fill-c"></em><span>Personal Infomation</span></a></li>
+                                        @endcan
+                                        @can('update')
+                                            <li><a  href="{{  route('profile.edit')  }}"><em class="icon ni ni-account-setting-fill"></em><span>Update Account Details</span></a></li>
+                                        @endcan
                                         <li><a  href="{{ route('view.user-documents') }}"><em class="icon ni ni-file-text-fill"></em></em><span>Documents</span></a></li>
                                         {{-- <li><a href="{{ route('view.my-family') }}"><em class="icon ni ni-home-alt"></em><span>Family Member</span>
                                         <li><a href="{{ route('view.my-education') }}"><em class="icon ni ni-reports-alt"></em><span>Education Background</span>

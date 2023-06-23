@@ -4,7 +4,7 @@
             <div class="nk-block-head-content">
                 <h4 class="nk-block-title">Education Background</h4>
                 <div class="nk-block-des">
-                    <p>You can add or edit a education background.</p>
+                    <p>You can add or edit an education background.</p>
                 </div>
             </div>
             <div class="nk-block-head-content ms-auto">
@@ -35,7 +35,7 @@
                     <tbody>
                         @foreach ($personnel->educationBackgrounds as $education)
                         <tr class="nk-tb-item">
-                            
+
                             <td class="nk-tb-col tb-col">
                                 <span>{{ $education->acad_level }}</span>
                             </td>

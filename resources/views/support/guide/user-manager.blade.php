@@ -64,7 +64,7 @@
 
                                         <div class="content mt-5">
                                             <h5 class="title"><span class="text-primary">#</span>Account details</h5>
-                                            <p>When yuou click the view profile it will redirect you to the user's profile similar.</p>
+                                            <p>When you click the view profile it will redirect you to the user's profile similar.</p>
                                             <p>On the other hand, when you click the  account details it will redirect you to a page where you can edit the user's name, email, password and role.</p>
                                         </div>
 
@@ -73,7 +73,7 @@
                                         </div>
 
                                         <div class="content mt-5">
-                                            <p>If you have change anything in the account details and click update, you will be redirected again to the user list where you can see an alert that says </p>
+                                            <p>If you have change anything in the account details and click update, you will be redirected again to the user list where you can see an alert that says "User updated successfully"</p>
                                         </div>
 
                                         <div class="image image-lg">

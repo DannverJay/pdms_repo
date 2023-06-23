@@ -4,7 +4,7 @@
             <div class="nk-block-head-content">
                 <h4 class="nk-block-title">Eligibility</h4>
                 <div class="nk-block-des">
-                    <p>You can add or edit a eligibilities.</p>
+                    <p>You can add or edit an eligibilities.</p>
                 </div>
             </div>
             <div class="nk-block-head-content ms-auto">
@@ -34,7 +34,7 @@
                     <tbody>
                         @foreach ($personnel->eligibilities as $eligibility)
                         <tr class="nk-tb-item">
-                            
+
                             <td class="nk-tb-col tb-col">
                                 <span>{{ $eligibility->title }}</span>
                             </td>

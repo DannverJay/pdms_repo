@@ -154,7 +154,7 @@
                                                     </div>
                                                     <div class="profile-ud-item">
                                                         <div class="profile-ud wider">
-                                                            <span class="profile-ud-label">weight</span>
+                                                            <span class="profile-ud-label">Weight</span>
                                                             <span class="profile-ud-value">{{ $personnel->weight }}</span>
                                                         </div>
                                                     </div>
@@ -178,39 +178,6 @@
                                                 <div class="nk-block-head nk-block-head-line">
                                                     <h6 class="title overline-title text-base">Current Address</h6>
                                                 </div><!-- .nk-block-head -->
-
-                                                <div class="profile-ud-list">
-                                                    <div class="profile-ud-item">
-                                                        <div class="profile-ud wider">
-                                                            <span class="profile-ud-label">Street/ House # / Bldg. </span>
-                                                            <span class="profile-ud-value">{{ $personnel->home_street }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="profile-ud-item">
-                                                        <div class="profile-ud wider">
-                                                            <span class="profile-ud-label">City / Municipality</span>
-                                                            <span class="profile-ud-value">{{ $personnel->home_city }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="profile-ud-item">
-                                                        <div class="profile-ud wider">
-                                                            <span class="profile-ud-label">Province</span>
-                                                            <span class="profile-ud-value">{{ $personnel->home_province }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="profile-ud-item">
-                                                        <div class="profile-ud wider">
-                                                            <span class="profile-ud-label">Zip Code</span>
-                                                            <span class="profile-ud-value">{{ $personnel->home_zip }}</span>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- .profile-ud-list -->
-                                            </div><!-- .nk-block -->
-                                            <div class="nk-block">
-                                                <div class="nk-block-head nk-block-head-line">
-                                                    <h6 class="title overline-title text-base">Permanent Address</h6>
-                                                </div><!-- .nk-block-head -->
-
                                                 <div class="profile-ud-list">
                                                     <div class="profile-ud-item">
                                                         <div class="profile-ud wider">
@@ -234,6 +201,38 @@
                                                         <div class="profile-ud wider">
                                                             <span class="profile-ud-label">Zip Code</span>
                                                             <span class="profile-ud-value">{{ $personnel->current_zip }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- .profile-ud-list -->
+
+                                            </div><!-- .nk-block -->
+                                            <div class="nk-block">
+                                                <div class="nk-block-head nk-block-head-line">
+                                                    <h6 class="title overline-title text-base">Permanent Address</h6>
+                                                </div><!-- .nk-block-head -->
+                                                <div class="profile-ud-list">
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Street/ House # / Bldg. </span>
+                                                            <span class="profile-ud-value">{{ $personnel->home_street }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">City / Municipality</span>
+                                                            <span class="profile-ud-value">{{ $personnel->home_city }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Province</span>
+                                                            <span class="profile-ud-value">{{ $personnel->home_province }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Zip Code</span>
+                                                            <span class="profile-ud-value">{{ $personnel->home_zip }}</span>
                                                         </div>
                                                     </div>
                                                 </div><!-- .profile-ud-list -->

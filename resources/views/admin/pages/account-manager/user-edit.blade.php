@@ -72,7 +72,7 @@
                                             <div class="col-lg-5">
                                                 <div class="form-group">
                                                     <label class="form-label">Password</label>
-                                                    <span class="form-note">If you want to change the user's password, click change password button</span>
+                                                    <span class="form-note">You can change the user's password.</span>
                                                 </div>
                                             </div>
                                             <div class="col-lg-7">
@@ -91,15 +91,41 @@
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="form-group-wrap">
-
                                                     <select name="role" id="role" class="form-control form-control-lg" required>
-                                                        <option value="">{{ __('Select a role') }}</option>
                                                         @foreach ($roles as $role)
                                                             <option value="{{ $role->id }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>{{ $role->name }}</option>
                                                         @endforeach
                                                     </select>
+                                                    @php
+                                                        $adminCount = $roles->where('name', 'admin')->first()->users->count();
+                                                    @endphp
+                                                    <div class="alert alert-warning mt-3" role="alert" id="admin-alert" style="display: {{ $user->hasRole('admin') && $adminCount === 1 ? 'block' : 'none' }}">
+                                                        You are the only admin user. Changing the role is not allowed.
+                                                    </div>
+
+                                                    <script>
+                                                        document.addEventListener('DOMContentLoaded', function() {
+                                                            var roleSelect = document.querySelector('#role');
+                                                            var adminAlert = document.querySelector('#admin-alert');
+                                                            var adminCount = {{ $adminCount }};
+
+                                                            function handleRoleChange() {
+                                                                if (roleSelect.value === 'admin' && adminCount === 1) {
+                                                                    adminAlert.style.display = 'block';
+                                                                    roleSelect.disabled = true;
+                                                                } else {
+                                                                    adminAlert.style.display = 'none';
+                                                                    roleSelect.disabled = false;
+                                                                }
+                                                            }
+
+                                                            roleSelect.addEventListener('change', handleRoleChange);
+                                                            handleRoleChange();
+                                                        });
+                                                    </script>
                                                 </div>
                                             </div>
+
                                         </div>
                                         <div class="justify-end mt-2">
                                             <button type="submit" class="btn btn-primary">{{ __('Update User') }}</button>

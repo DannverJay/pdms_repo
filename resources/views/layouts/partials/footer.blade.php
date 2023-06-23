@@ -3,9 +3,9 @@
         <div class="nk-footer-wrap">
             <div class="nk-footer-links">
                 <ul class="nav nav-sm">
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="#" class="nav-link"><span class="ms-1">Privacy Policy</span></a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
             <div class="nk-footer-copyright">

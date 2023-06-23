@@ -133,45 +133,59 @@
 <!-- @@ Profile Add Modal @e -->
 <div class="modal fade" role="dialog" id="profile-add">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
-                <div class="modal-body modal-body-lg">
-                    <h5 class="title">Create New User</h5>
-                    <form method="POST" action="{{ route('users.store') }}">
-                        @csrf
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" name="name" id="name" class="form-control" required>
-                        </div>
+      <div class="modal-content">
+        <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+        <div class="modal-body modal-body-lg">
+          <h5 class="title">Create New User</h5>
+          <form method="POST" action="{{ route('users.store') }}">
+            @csrf
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" name="name" id="name" class="form-control" required>
+            </div>
 
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" required>
-                        </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" name="email" id="email" class="form-control" required>
+            </div>
 
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" required>
-                        </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" name="password" id="password" class="form-control" required>
+              <small class="form-text text-muted">Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter.</small>
+            </div>
 
-                        <div class="form-group">
-                            <label for="role">Role</label>
-                            <select name="role" id="role" class="form-control" required>
-                                <option value="">Select a role</option>
-                                @foreach ($roles as $role)
-                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+            <div class="form-group">
+              <label for="role">Role</label>
+              <select name="role" id="role" class="form-control" required>
+                <option value="">Select a role</option>
+                @foreach ($roles as $role)
+                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                @endforeach
+              </select>
+            </div>
 
-                        <button type="submit" class="btn btn-primary">Create User</button>
-                    </form>
-
-                </div><!-- .modal-body -->
-            </form>
-        </div><!-- .modal-content -->
+            <button type="submit" class="btn btn-primary">Create User</button>
+          </form>
+        </div><!-- .modal-body -->
+      </div><!-- .modal-content -->
     </div><!-- .modal-dialog -->
-</div><!-- .modal -->
+  </div><!-- .modal -->
+
+  <script>
+    // Add password validation
+    document.getElementById("password").addEventListener("input", function() {
+      var password = this.value;
+      var hasUpperCase = /[A-Z]/.test(password);
+      var hasLowerCase = /[a-z]/.test(password);
+
+      if (!hasUpperCase || !hasLowerCase) {
+        this.setCustomValidity("Password must contain at least one uppercase letter and one lowercase letter.");
+      } else {
+        this.setCustomValidity("");
+      }
+    });
+  </script>
 
 <script>
     $(document).ready(function() {

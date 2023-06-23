@@ -28,6 +28,6 @@ class RoleSeeder extends Seeder
           $adminRole->syncPermissions($permissions);
 
           // Assign specific permissions to the $userRole
-          $userRole->syncPermissions(['read', 'update', 'delete']);
+          $userRole->syncPermissions(['read', 'update']);
     }
 }

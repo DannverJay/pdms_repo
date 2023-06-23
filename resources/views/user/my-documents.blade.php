@@ -110,27 +110,28 @@
                                     <a href="" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                     <div class="dropdown-menu dropdown-menu-end">
                                         <ul class="link-list-plain no-bdr">
-                                            <li>
-                                                <a href="{{ route('my-documents.preview', ['id' => $document->id]) }}" target="_blank">
-                                                    <em class="icon ni ni-focus"></em><span>Preview</span></a></li>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('my-documents.download', ['id' => $document->id]) }}"><em class="icon ni ni-download"></em><span>Download</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="btn" style="border: none; padding-left: 11px; background-color: transparent;"
-                                                onclick="event.preventDefault(); if (confirm('Are you sure you want to delete this document?')) { document.getElementById('delete-form-{{ $document->id }}').submit(); }">
-                                                    <em class="icon ni ni-trash"></em>
-                                                    <span>Delete</span>
-                                                </a>
+                                            @can('update')
+                                            <li><a  href="{{  route('profile.edit')  }}"><em class="icon ni ni-account-setting-fill"></em><span>Update Account Details</span></a></li>
+                                            @endcan
+                                            @can('read')
+                                                <li>
+                                                    <a href="{{ route('my-documents.download', ['id' => $document->id]) }}"><em class="icon ni ni-download"></em><span>Download</span></a>
+                                                </li>
+                                            @endcan
+                                            @can('delete')
+                                                <li>
+                                                    <a href="#" class="btn" style="border: none; padding-left: 11px; background-color: transparent;"
+                                                    onclick="event.preventDefault(); if (confirm('Are you sure you want to delete this document?')) { document.getElementById('delete-form-{{ $document->id }}').submit(); }">
+                                                        <em class="icon ni ni-trash"></em>
+                                                        <span>Delete</span>
+                                                    </a>
 
-                                                <form id="delete-form-{{ $document->id }}" method="POST" action="{{ route('my-documents.delete', ['id' => $document->id]) }}" style="display: none;">
-                                                @csrf
-                                                @method('DELETE')
-                                                </form>
-                                            </li>
-
+                                                    <form id="delete-form-{{ $document->id }}" method="POST" action="{{ route('my-documents.delete', ['id' => $document->id]) }}" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    </form>
+                                                </li>
+                                            @endcan
 
                                         </ul>
                                     </div>

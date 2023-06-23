@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -52,20 +53,22 @@ class UserController extends Controller
         // Redirect or show success message
         return redirect()->back()->with('success', 'User created successfully.');
     }
-    //Edit Page
+   // Edit Page
     public function edit(User $user)
     {
         $roles = Role::all(); // Retrieve all roles from the database
 
-        return view('admin.pages.account-manager.user-edit', compact('user', 'roles'));
+        $adminCount = Role::where('name', 'admin')->first()->users->count();
+
+        return view('admin.pages.account-manager.user-edit', compact('user', 'roles', 'adminCount'));
     }
 
-    //update user
+    // Update user
     public function update(Request $request, User $user)
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email',
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
             'password' => 'nullable|string',
             'role' => 'required|exists:roles,id',
         ]);
@@ -74,7 +77,21 @@ class UserController extends Controller
             unset($validatedData['password']); // Remove the password field if it is empty
         }
 
+        // Check if the user has only the admin role
+        $userRoles = $user->roles->pluck('name')->toArray();
+        $adminCount = Role::where('name', 'admin')->first()->users->count();
+
+        if (count($userRoles) === 1 && in_array('admin', $userRoles) && $adminCount === 1) {
+            unset($validatedData['role']); // Remove the role field if the user has only the admin role and there is only one admin
+        }
+
         $user->update($validatedData);
+
+        if (isset($validatedData['role'])) {
+            // Assign the selected role to the user
+            $role = Role::findById($request->input('role'));
+            $user->syncRoles([$role]);
+        }
 
         return redirect()->route('user.lists')->with('success', 'User updated successfully.');
     }
@@ -92,15 +109,20 @@ class UserController extends Controller
 
     }
 
+
     public function destroy(Request $request, $id)
     {
         // Find the user by ID
         $user = User::findOrFail($id);
 
         // Ensure the authenticated user can delete the user
-        if ($user->id === Auth::id()) {
-            // Prevent deleting the currently authenticated user
-            return redirect()->back()->with('error', 'You cannot delete your own account.');
+
+
+        // Check if the user is the only admin
+        $adminRole = Role::where('name', 'admin')->first();
+        if ($user->hasRole($adminRole) && $adminRole->users()->count() === 1) {
+            // Prevent deleting the only admin user
+            return redirect()->back()->with('error', 'You cannot delete the only admin user.');
         }
 
         // Delete the user
@@ -108,7 +130,6 @@ class UserController extends Controller
 
         return redirect()->route('user.lists')->with('success', 'User deleted successfully.');
     }
-
 
 
 }
