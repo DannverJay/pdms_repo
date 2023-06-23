@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Personnel;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,6 +29,16 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        // Check if associated personnel is inactive
+        $personnel = Personnel::where('user_id', $user->id)->first();
+
+        if ($personnel && $personnel->status === 'Inactive') {
+            Auth::logout();
+            return redirect()->back()->withErrors(['error' => 'Your account is inactive. Please contact an administrator.']);
+        }
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

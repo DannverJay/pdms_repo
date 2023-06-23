@@ -131,6 +131,12 @@
                                             </span>
                                         @enderror
                                         </div>
+                                        <!-- Add this code in your blade template where you want to display the error message -->
+                                        @if ($errors->has('error'))
+                                        <div class="alert alert-danger">
+                                            {{ $errors->first('error') }}
+                                        </div>
+                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <div class="form-label-group">

@@ -104,26 +104,32 @@ $uploadedDocumentsCount = count($documents);
                                                         <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
                                                             <ul class="link-list-plain">
-                                                                <li>
-                                                                    <a href="{{ route('my-documents.preview', ['id' => $document->id]) }}" target="_blank">
-                                                                        <em class="icon ni ni-focus"></em><span>Preview</span></a></li>
-                                                                    </a>
-                                                                </li>
+                                                                @can('read')
+                                                                    <li>
+                                                                        <a href="{{ route('my-documents.preview', ['id' => $document->id]) }}" target="_blank">
+                                                                            <em class="icon ni ni-focus"></em><span>Preview</span></a></li>
+                                                                        </a>
+                                                                    </li>
+                                                                @endcan
+
                                                                 <li>
                                                                     <a href="{{ route('my-documents.download', ['id' => $document->id]) }}"><em class="icon ni ni-download"></em><span>Download</span></a>
                                                                 </li>
-                                                                <li>
-                                                                    <a href="#" class="btn" style="border: none; padding-left: 11px; background-color: transparent;"
-                                                                    onclick="event.preventDefault(); if (confirm('Are you sure you want to delete this document?')) { document.getElementById('delete-form-{{ $document->id }}').submit(); }">
-                                                                        <em class="icon ni ni-trash"></em>
-                                                                        <span>Delete</span>
-                                                                    </a>
+                                                                @can('delete')
+                                                                    <li>
+                                                                        <a href="#" class="btn" style="border: none; padding-left: 11px; background-color: transparent;"
+                                                                        onclick="event.preventDefault(); if (confirm('Are you sure you want to delete this document?')) { document.getElementById('delete-form-{{ $document->id }}').submit(); }">
+                                                                            <em class="icon ni ni-trash"></em>
+                                                                            <span>Delete</span>
+                                                                        </a>
 
-                                                                    <form id="delete-form-{{ $document->id }}" method="POST" action="{{ route('my-documents.delete', ['id' => $document->id]) }}" style="display: none;">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    </form>
-                                                                </li>
+                                                                        <form id="delete-form-{{ $document->id }}" method="POST" action="{{ route('my-documents.delete', ['id' => $document->id]) }}" style="display: none;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        </form>
+                                                                    </li>
+                                                                @endcan
+
                                                             </ul>
                                                         </div>
                                                     </div>
