@@ -38,7 +38,7 @@
 								<nav class="header-menu" data-content="mainNav">
 									<ul class="menu-list ms-lg-auto">
 										<li class="menu-item active"><a href="#home" class="menu-link nav-link">Home</a></li>
-										
+
 									</ul>
 									<ul class="menu-btns">
                                         @auth
@@ -61,8 +61,9 @@
 							<div class="row flex-lg-row-reverse align-items-center justify-content-between g-gs">
 								<div class="col-lg-6 mb-lg-0">
 									<div class="header-play text-lg-center">
-										<a class="play popup-video" href="#">
-											<div class="styled-icon styled-icon-6x styled-icon-s5 text-warning">
+                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/W7ADHpaHIuQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+										{{-- <a class="play popup-video" href="https://www.youtube.com/embed/W7ADHpaHIuQ"> --}}
+											{{-- <div class="styled-icon styled-icon-6x styled-icon-s5 text-warning">
 												<svg x="0px" y="0px" viewBox="0 0 512 512" style="fill: currentColor" xml:space="preserve">
 													<path
 														d="M436.2,178.3c-7.5-4.7-17.4-2.4-22.1,5.1c-4.7,7.5-2.4,17.4,5.1,22.1c17.5,10.9,28,29.8,28,50.4s-10.5,39.5-28,50.4
@@ -73,7 +74,7 @@
 													/>
 												</svg>
 											</div>
-											<div class="play-text">Demo Video Tutorial</div>
+											<div class="play-text">Demo Video Tutorial</div> --}}
 										</a>
 									</div>
 								</div>
