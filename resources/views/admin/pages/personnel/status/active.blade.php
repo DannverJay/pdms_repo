@@ -47,12 +47,12 @@
                 <table id="personnelTable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
-                            <th class="nk-tb-col nk-tb-col-check">
+                            {{-- <th class="nk-tb-col nk-tb-col-check">
                                 <div class="custom-control custom-control-sm custom-checkbox notext">
                                     <input type="checkbox" class="custom-control-input" id="uid">
                                     <label class="custom-control-label" for="uid"></label>
                                 </div>
-                            </th>
+                            </th> --}}
                             <th class="nk-tb-col"><span class="sub-text">Name</span></th>
                             <th class="nk-tb-col tb-col-mb"><span class="sub-text">Rank</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Station</span></th>
@@ -64,12 +64,12 @@
                     <tbody>
                         @foreach ($personnels as $personnel)
                         <tr class="nk-tb-item">
-                            <td class="nk-tb-col nk-tb-col-check">
+                            {{-- <td class="nk-tb-col nk-tb-col-check">
                                 <div class="custom-control custom-control-sm custom-checkbox notext">
                                     <input type="checkbox" class="custom-control-input" id="{{ $personnel->id }}">
                                     <label class="custom-control-label" for="{{ $personnel->id }}"></label>
                                 </div>
-                            </td>
+                            </td> --}}
                             <td class="nk-tb-col">
                                 <a href="{{ route('view.personnel.profile',['id' => $personnel->id]) }}">
                                     <div class="user-card">
