@@ -54,6 +54,11 @@
                             <div class="form-group mt-4">
                                 <button type="submit" class="btn btn-primary">Send</button>
                             </div>
+                            @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
                         </div>
                     </form>
                 </div>

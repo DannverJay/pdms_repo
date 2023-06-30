@@ -123,7 +123,7 @@
                                         </div>
                                         <div class="form-control-wrap">
                                             <input type="email" class="form-control form-control-lg @error('email')
-                                            is-invalid @enderror" id="email" name="email" placeholder="Enter your email address or username" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                            is-invalid @enderror" id="email" name="email" placeholder="Enter your email address or username" value="{{ old('email') }}" required autocomplete="off" autofocus>
 
                                         @error('email')
                                             <span class="invalid-feedback">
@@ -148,7 +148,7 @@
                                                 <em class="passcode-icon icon-show icon ni ni-eye"></em>
                                                 <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
                                             </a>
-                                            <input required autocomplete="current-password" type="password" class="form-control form-control-lg @error('password') is-invalid @enderror" id="password" name="password" placeholder="Enter your passcode">
+                                            <input required autocomplete="off" type="password" class="form-control form-control-lg @error('password') is-invalid @enderror" id="password" name="password" placeholder="Enter your passcode">
 
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">

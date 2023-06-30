@@ -180,12 +180,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/documents/{id}/download', [DocumentController::class, 'download'])->name('documents.download');
         Route::get('/documents/{id}/preview', [DocumentController::class, 'preview'])->name('documents.preview');
         Route::delete('/documents/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
+
+
         //User Management
         Route::get('/user-listing', [UserController::class, 'showUser'])->name('user.lists');
         Route::get('/users-manage/{user}/view-profile', [UserController::class, 'show'])->name('users.show');
-
+        //User Management - show archived Users
+        Route::get('users/archived', [UserController::class, 'archive'])->name('users.archive-list');
+        //User Management - Restore Archived Users
+        Route::get('users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
         //User management - Add User
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
+        //User Management - Archive Users
         Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.delete');
         //User Management - edit user
         Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');

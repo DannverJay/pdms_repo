@@ -17,14 +17,12 @@
                         <div class="toggle-expand-content" data-content="pageMenu">
                             <ul class="nk-block-tools g-3">
                                 {{-- <li><a href="#" class="btn btn-primary btn-outline-light"><em class="icon ni ni-plus"></em></a></li> --}}
-                                <li>
+                                {{-- <li>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#profile-add">
                                         <em class="icon ni ni-plus"></em>
                                         <span>Add User</span>
                                       </button>
-
-
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </div><!-- .toggle-wrap -->
@@ -49,16 +47,14 @@
                         <tr class="nk-tb-item nk-tb-head">
                             <th class="nk-tb-col"><span class="sub-text">User</span></th>
                             <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email</span></th>
-                            {{-- <th class="nk-tb-col tb-col-md"><span class="sub-text">Phone</span></th> --}}
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Role</span></th>
-                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Date Created</span></th>
-                            {{-- <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th> --}}
-                            <th class="nk-tb-col nk-tb-col-tools text-end">Action
-                            </th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Deleted At</span></th>
+                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Days Left</span></th>
+                            <th class="nk-tb-col nk-tb-col-tools text-end">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user)
+                        @foreach ($softDeletedUsers as $user)
                             <tr class="nk-tb-item">
 
                                 <td class="nk-tb-col">
@@ -94,7 +90,10 @@
                                 </td>
 
                                 <td class="nk-tb-col tb-col-lg">
-                                    <span>{{ $user->created_at->format('M d, Y') }}</span>
+                                    <span>{{ $user->deleted_at }}</span>
+                                </td>
+                                <td class="nk-tb-col tb-col-lg">
+                                    <span>{{ $user->deleted_at->diffInDays(now()->addYear()) }}</span>
                                 </td>
                                 <td class="nk-tb-col nk-tb-col-tools">
                                     <ul class="nk-tb-actions gx-1">
@@ -103,9 +102,8 @@
                                                 <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <ul class="link-list-opt no-bdr">
-                                                        <li><a href="{{ route('users.show', $user) }}"><span>View Profile</span></a></li>
-                                                        <li><a href="{{ route('users.edit', $user->id) }}"><span>Account Details</span></a></li>
-                                                        <li>
+                                                        <li><a href="{{ route('users.restore', $user->id) }}"><span>Restore User</span></a></li>
+                                                        {{-- <li>
                                                             <a  onclick="event.preventDefault(); if(confirm('Are you sure you want to archive this user?')) { document.getElementById('delete-form-{{ $user->id }}').submit(); }">
                                                                 <span>Archive User</span>
                                                             </a>
@@ -113,8 +111,7 @@
                                                                 @csrf
                                                                 @method('DELETE')
                                                             </form>
-                                                        </li>
-
+                                                        </li> --}}
                                                     </ul>
 
                                                 </div>
@@ -131,7 +128,7 @@
     </div>
 </div>
 <!-- @@ Profile Add Modal @e -->
-<div class="modal fade" role="dialog" id="profile-add">
+{{-- <div class="modal fade" role="dialog" id="profile-add">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
         <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
@@ -170,7 +167,7 @@
         </div><!-- .modal-body -->
       </div><!-- .modal-content -->
     </div><!-- .modal-dialog -->
-  </div><!-- .modal -->
+</div><!-- .modal --> --}}
 
   <script>
     // Add password validation

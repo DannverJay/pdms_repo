@@ -10,11 +10,12 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Personnel;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -36,6 +37,13 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+
+    protected $dates = [
+        'deleted_at'
+    ];
+
+    protected $expires = '1 year';
 
     /**
      * The attributes that should be cast.

@@ -30,7 +30,7 @@
 
                                 <div class="card-inner">
                                     <div class="card-head">
-                                        <h5 class="card-title">Edit User</h5>
+                                        <h5 class="card-title">Edit User Account Details</h5>
                                     </div>
                                     <form method="POST" action="{{ route('users.update', $user->id) }}">
                                         @csrf

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -109,27 +110,37 @@ class UserController extends Controller
 
     }
 
-
     public function destroy(Request $request, $id)
     {
         // Find the user by ID
-        $user = User::findOrFail($id);
+        $user = User::withTrashed()->findOrFail($id);
 
-        // Ensure the authenticated user can delete the user
-
-
-        // Check if the user is the only admin
-        $adminRole = Role::where('name', 'admin')->first();
-        if ($user->hasRole($adminRole) && $adminRole->users()->count() === 1) {
-            // Prevent deleting the only admin user
-            return redirect()->back()->with('error', 'You cannot delete the only admin user.');
-        }
-
-        // Delete the user
+        // Soft delete the user
         $user->delete();
 
-        return redirect()->route('user.lists')->with('success', 'User deleted successfully.');
+        return redirect()->route('user.lists')->with('success', 'User archived successfully.');
     }
 
+    public function archive()
+    {
+        $userCount = User::count();
 
+        $softDeletedUsers = User::onlyTrashed()
+            ->with('roles')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $roles = Role::get();
+
+        return view('admin.pages.account-manager.archive-users', compact('userCount', 'softDeletedUsers', 'roles'));
+    }
+
+    public function restore($id)
+    {
+        $user = User::withTrashed()->findOrFail($id);
+
+        $user->restore();
+
+        return redirect()->back()->with('success', 'User restored successfully.');
+    }
 }
