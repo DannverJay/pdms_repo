@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Models\Activity;
 
 class SupportController extends Controller
 {
@@ -67,5 +69,28 @@ class SupportController extends Controller
     public function changeDetails()
     {
         return view('support.user-guide.change-account');
+    }
+
+    public function activityLogs()
+    {
+        $logs = DB::table('activity_log')
+        ->orderBy('created_at', 'desc')
+        ->limit(15) // Add this line to limit the number of records
+        ->get();
+
+        return view('support.activity-logs', compact('logs'));
+    }
+
+    public function userLogs()
+    {
+        $user = auth()->user();
+
+        $logs = Activity::where('causer_id', $user->id)
+            ->where('causer_type', get_class($user))
+            ->orderBy('created_at', 'desc')
+            ->limit(15)
+            ->get();
+
+        return view('support.activity-logs', compact('logs'));
     }
 }

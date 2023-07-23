@@ -64,19 +64,18 @@
                         </li><!-- .nk-menu-item -->
 
                         <li class="nk-menu-item">
-                            <a href="{{ route('users.archive-list') }}" class="nk-menu-link">
-                                <span class="nk-menu-icon"><em class="icon ni ni-archived-fill"></em></span>
-                                <span class="nk-menu-text">Archived Users</span>
-                            </a>
-                        </li><!-- .nk-menu-item -->
-
-                        <li class="nk-menu-item">
                             <a href="{{ route('roles.index') }}" class="nk-menu-link">
                                 <span class="nk-menu-icon"><em class="icon ni ni-policy-fill"></em></span>
                                 <span class="nk-menu-text">Roles & Permissions</span>
                             </a>
                         </li><!-- .nk-menu-item -->
 
+                        <li class="nk-menu-item">
+                            <a href="{{ route('users.archive') }}" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-archived-fill"></em></span>
+                                <span class="nk-menu-text">Archived Users</span>
+                            </a>
+                        </li><!-- .nk-menu-item -->
                     @else
 
                         <li class="nk-menu-item">
@@ -124,7 +123,21 @@
                             <span class="nk-menu-text">FAQs / Help </span>
                         </a>
                     </li><!-- .nk-menu-item -->
-
+                @hasrole('admin')
+                    <li class="nk-menu-item">
+                        <a href="{{ route('support.activty-log') }}" class="nk-menu-link">
+                            <span class="nk-menu-icon"><em class="icon ni ni-task"></em></span>
+                            <span class="nk-menu-text">Activity Logs </span>
+                        </a>
+                    </li>
+                @else
+                    <li class="nk-menu-item">
+                        <a href="{{ route('support.activty-log') }}" class="nk-menu-link">
+                            <span class="nk-menu-icon"><em class="icon ni ni-task"></em></span>
+                            <span class="nk-menu-text">Activity Logs </span>
+                        </a>
+                    </li>
+                @endrole
                 </ul><!-- .nk-menu -->
             </div><!-- .nk-sidebar-menu -->
         </div><!-- .nk-sidebar-content -->

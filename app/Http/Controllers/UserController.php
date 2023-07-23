@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Personnel;
 use App\Models\User;
+use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Validation\Rule;
+use Spatie\Activitylog\Models\Activity;
 
 class UserController extends Controller
 {
@@ -94,6 +95,18 @@ class UserController extends Controller
             $user->syncRoles([$role]);
         }
 
+        // Perform any additional actions if needed
+        $adminRole = Role::where('name', 'admin')->first();
+        $adminUser = $adminRole->users()->first();
+
+        // Save the activity log
+        $activity = new Activity();
+        $activity->log_name = $adminUser->name;
+        $activity->description = 'Updated the account of ' . $user->name;
+        $activity->causer_id = $adminUser->id;
+        $activity->causer_type = 'App\Models\User';
+        $activity->save();
+
         return redirect()->route('user.lists')->with('success', 'User updated successfully.');
     }
 
@@ -110,20 +123,45 @@ class UserController extends Controller
 
     }
 
+
     public function destroy(Request $request, $id)
+{
+    // Find the user by ID
+    $user = User::withTrashed()->findOrFail($id);
+
+    // Ensure the authenticated user can delete the user
+
+    // Check if the user is the only admin
+    $adminRole = Role::where('name', 'admin')->first();
+    if ($user->hasRole($adminRole) && $adminRole->users()->count() === 1) {
+        // Prevent deleting the only admin user
+        return redirect()->back()->with('error', 'You cannot delete the only admin user.');
+    }
+
+    // Set the expiration time for soft delete
+    $expiresAt = Carbon::now()->addYear();
+    $user->expires_at = $expiresAt;
+    $user->save();
+
+    // Soft delete the user
+    $user->delete();
+
+    return redirect()->route('user.lists')->with('success', 'User has been archived.');
+}
+    public function restore($id)
     {
-        // Find the user by ID
-        $user = User::withTrashed()->findOrFail($id);
+        // Find the soft deleted user by ID
+        $user = User::onlyTrashed()->findOrFail($id);
 
-        // Soft delete the user
-        $user->delete();
+        // Restore the user
+        $user->restore();
 
-        return redirect()->route('user.lists')->with('success', 'User archived successfully.');
+        return redirect()->route('user.lists')->with('success', 'User restored successfully.');
     }
 
     public function archive()
     {
-        $userCount = User::count();
+        $userCount = User::onlyTrashed()->count();
 
         $softDeletedUsers = User::onlyTrashed()
             ->with('roles')
@@ -132,15 +170,6 @@ class UserController extends Controller
 
         $roles = Role::get();
 
-        return view('admin.pages.account-manager.archive-users', compact('userCount', 'softDeletedUsers', 'roles'));
-    }
-
-    public function restore($id)
-    {
-        $user = User::withTrashed()->findOrFail($id);
-
-        $user->restore();
-
-        return redirect()->back()->with('success', 'User restored successfully.');
+        return view('admin.pages.account-manager.archive-list', compact('userCount', 'softDeletedUsers', 'roles'));
     }
 }

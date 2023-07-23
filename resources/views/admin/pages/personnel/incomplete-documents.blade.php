@@ -19,19 +19,9 @@
         </div>
         <div class="card card-bordered card-preview">
             <div class="card-inner">
-                <!-- Add a container for the buttons above the table -->
-                <div id="tableButtons" class="mb-3" style="display: none;">
-                    <button id="messageAllButton" class="btn btn-primary">Message All</button>
-                </div>
-                <table id="personnelTable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                <table class="datatable-init-export nowrap table" data-export-title="Export">
                     <thead>
-                        <tr class="nk-tb-item nk-tb-head">
-                            {{-- <th class="nk-tb-col nk-tb-col-check">
-                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                    <input type="checkbox" class="custom-control-input" id="uid">
-                                    <label class="custom-control-label" for="uid"></label>
-                                </div>
-                            </th> --}}
+                        <tr>
                             <th class="nk-tb-col"><span class="sub-text">Name</span></th>
                             <th class="nk-tb-col tb-col-mb"><span class="sub-text">Uploaded Document</span></th>
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Issued Date</span></th>
@@ -74,8 +64,6 @@
 
                             <td class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-1">
-                                   
-
                                     <li>
                                         <a href="{{ route('send.sms', ['mobile_no' => $personnel->mobile_no]) }}"
                                                             class="dropdown-toggle"><em class="icon ni ni-comments"></em>

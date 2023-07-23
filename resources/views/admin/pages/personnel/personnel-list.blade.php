@@ -59,7 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <table id="personnelTable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                <table id="personnelTable" class="datatable-init-export nowrap table" data-export-title="Export" data-auto-responsive="false">
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
                             {{-- <th class="nk-tb-col nk-tb-col-check">
@@ -169,7 +169,7 @@
                                                             <span>View Profile</span>
                                                         </a>
                                                     </li>
-                                                   
+
                                                     <li class="divider"></li>
                                                     <li>
                                                         <a href="{{ route('view.personnel.documents', ['id' => $personnel->id]) }}">

@@ -7,9 +7,13 @@ use App\Models\Personnel;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Permission\Models\Role;
 
 class PersonnelController extends Controller
 {
@@ -85,13 +89,31 @@ class PersonnelController extends Controller
 
             $documentType = $request->input('document_type');
             $previousYear = Carbon::now()->subYear();
+
+            // Encrypt the file content
+            $encryptedContent = Crypt::encrypt(file_get_contents($file->path()));
+
+            // Store the encrypted content instead of the file itself
             $document = Document::create([
                 'personnel_id' => $personnel_id,
                 'file_name' => $file_name,
-                'document_type' => $documentType, // Adjust the document type as needed
-                'issued_date' => $previousYear, // Set the issued date as the previous year
-                'file_path' => $file_path,
+                'document_type' => $documentType,
+                'issued_date' => $previousYear,
+                'file_content' => $encryptedContent, // Store the encrypted content in the database
             ]);
+
+            $personnel = $document->personnel;
+            // Perform any additional actions if needed
+            $adminRole = Role::where('name', 'admin')->first();
+            $adminUser = $adminRole->users()->first();
+
+            // Save the activity log
+            $activity = new Activity();
+            $activity->log_name = $adminUser->name;
+            $activity->description = 'Downloaded a document of ' . $personnel->first_name . ' ' . $personnel->last_name;
+            $activity->causer_id = $adminUser->id;
+            $activity->causer_type = 'App\Models\User';
+            $activity->save();
 
             return redirect()->back()->with('success', 'Document uploaded successfully.');
         }
@@ -119,6 +141,19 @@ class PersonnelController extends Controller
             'Content-Type' => 'application/octet-stream',
         ];
 
+        $personnel = $document->personnel;
+        // Perform any additional actions if needed
+        $adminRole = Role::where('name', 'admin')->first();
+        $adminUser = $adminRole->users()->first();
+
+        // Save the activity log
+        $activity = new Activity();
+        $activity->log_name = $adminUser->name;
+        $activity->description = 'Downloaded a document of ' . $personnel->first_name . ' ' . $personnel->last_name;
+        $activity->causer_id = $adminUser->id;
+        $activity->causer_type = 'App\Models\User';
+        $activity->save();
+
         return Storage::download($document->file_path, $document->file_name, $downloadHeaders);
     }
 
@@ -126,6 +161,19 @@ class PersonnelController extends Controller
     public function deleteDocument($id)
     {
         $document = Document::findOrFail($id);
+
+        $personnel = $document->personnel;
+         // Perform any additional actions if needed
+         $adminRole = Role::where('name', 'admin')->first();
+         $adminUser = $adminRole->users()->first();
+
+         // Save the activity log
+         $activity = new Activity();
+         $activity->log_name = $adminUser->name;
+         $activity->description = 'Deleted a document of ' . $personnel->first_name . ' ' . $personnel->last_name;
+         $activity->causer_id = $adminUser->id;
+         $activity->causer_type = 'App\Models\User';
+         $activity->save();
 
         // Delete the document file from storage
         Storage::delete($document->file_path);
@@ -138,9 +186,22 @@ class PersonnelController extends Controller
 
     public function changeStatus($id, $status)
     {
+
+
         // Retrieve the personnel record
         $personnel = Personnel::findOrFail($id);
 
+        // Retrieve the admin user based on their role
+        $adminRole = Role::where('name', 'admin')->first();
+        $adminUser = $adminRole->users()->first();
+
+        // Save the activity log
+        $activity = new Activity();
+        $activity->log_name = $adminUser->name;
+        $activity->description = 'Changed status of ' . $personnel->first_name . ' to ' . $status;
+        $activity->causer_id = $adminUser->id;
+        $activity->causer_type = 'App\Models\User';
+        $activity->save();
         // Update the status
         $personnel->status = $status;
         $personnel->save();
@@ -150,14 +211,54 @@ class PersonnelController extends Controller
     }
 
     public function viewDocuments($id)
+{
+    $personnel = Personnel::findOrFail($id);
+    $documents = $personnel->documents;
+    $totalDocuments = $documents->count();
 
-    {
-        $personnel = Personnel::findOrFail($id);
-        $documents = $personnel->documents;
-        $totalDocuments = $documents->count();
+    $canEdit = ($totalDocuments > 0);
+    $showModal = $canEdit; // Set $showModal to $canEdit value
 
-        return view('admin.pages.personnel.view-documents', compact('personnel', 'documents', 'totalDocuments'));
+    return view('admin.pages.personnel.view-documents', compact('personnel', 'documents', 'totalDocuments', 'canEdit', 'showModal'));
+}
+
+    public function edit(Request $request, $id)
+{
+    $request->validate([
+        'file_name' => 'required',
+        'document_type' => 'required',
+    ]);
+
+    $document = Document::findOrFail($id);
+    $document->file_name = $request->input('file_name');
+    $document->document_type = $request->input('document_type');
+
+
+
+    // Update issued_year if provided
+    if ($request->has('issued_date')) {
+        $document->issued_date = $request->input('issued_date');
     }
+
+    $document->save();
+
+    $personnel = $document->personnel;
+    // Perform any additional actions if needed
+    $adminRole = Role::where('name', 'admin')->first();
+    $adminUser = $adminRole->users()->first();
+
+    // Save the activity log
+    $activity = new Activity();
+    $activity->log_name = $adminUser->name;
+    $activity->description = 'Edited a document of ' . $personnel->first_name . ' ' . $personnel->last_name;
+    $activity->causer_id = $adminUser->id;
+    $activity->causer_type = 'App\Models\User';
+    $activity->save();
+
+
+    return redirect()->back()->with('success', 'Document updated successfully.');
+}
+
 
     public function storeDocuments(Request $request)
     {
@@ -173,8 +274,11 @@ class PersonnelController extends Controller
         $fileName = $file->getClientOriginalName();
 
         $personnelName = $personnel->first_name . ' ' . $personnel->last_name;
-        $customFileName = $personnelName . '_' . $issuedYear . '_' . $fileName ;
-        $filePath = $file->storeAs('public/documents/' . $personnelName,  $file->getClientOriginalName());
+        $customFileName = $personnelName . '_' . $issuedYear . '_' . $fileName;
+        $filePath = $file->storeAs('public/documents/' . $personnelName, $file->getClientOriginalName());
+
+        // Encrypt the file content
+        $encryptedContent = Crypt::encrypt(file_get_contents($file->path()));
 
         $document = Document::create([
             'personnel_id' => $request->input('personnel_id'),
@@ -182,70 +286,23 @@ class PersonnelController extends Controller
             'document_type' => $request->input('document_type'),
             'issued_date' => $request->input('issued_date'),
             'file_path' => $filePath,
+          
         ]);
 
         // Perform any additional actions if needed
 
+        $adminRole = Role::where('name', 'admin')->first();
+        $adminUser = $adminRole->users()->first();
+
+        // Save the activity log
+        $activity = new Activity();
+        $activity->log_name = $adminUser->name;
+        $activity->description = 'Added a document to ' . $personnel->first_name . 'documents list';
+        $activity->causer_id = $adminUser->id;
+        $activity->causer_type = 'App\Models\User';
+        $activity->save();
+
         return redirect()->back()->with('success', 'Document added successfully.');
-
     }
 
-    public function changePassForm($id)
-    {
-        $personnel = Personnel::findOrFail($id);
-
-        return view('admin.pages.personnel.change-password', compact('personnel'));
-    }
-
-    public function changePass(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-
-        $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|min:8',
-            'confirm_password' => 'required|same:new_password',
-        ]);
-
-        // Check if the current password matches the user's actual password
-        if (Hash::check($request->input('current_password'), $user->password)) {
-            // Update the user's password
-            $user->password = Hash::make($request->input('new_password'));
-            $user->save();
-
-            return redirect()->back()->with('success', 'Password changed successfully.');
-        } else {
-            return redirect()->back()->with('error', 'Incorrect current password.');
-        }
-    }
-
-
-    public function accountSetting($id)
-    {
-        $personnel = Personnel::findOrFail($id);
-        $email = $personnel->user->email; // Assuming the email is stored in the "email" column of the "users" table
-        $password = $personnel->user->password;
-        return view('admin.pages.personnel.account-setting', compact('personnel', 'email', 'password'));
-    }
-
-
-    public function updateEmail(Request $request, $id)
-    {
-        $personnel = User::findOrFail($id);
-        $personnel->email = $request->input('email');
-        $personnel->save();
-
-        // Redirect back or to a specific route
-        return redirect()->back()->with('success', 'Email updated successfully.');
-    }
-
-
-    public function delete($id)
-    {
-        $personnel = Personnel::findOrFail($id);
-        $personnel->delete();
-
-        // You can add any additional logic or redirect to the desired page
-        return redirect()->back()->with('success', 'Personnel deleted successfully.');
-    }
 }

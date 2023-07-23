@@ -33,6 +33,7 @@
     <!-- JavaScript -->
     <script src="{{ asset('assets/auth/js/bundle.js') }}"></script>
     <script src="{{ asset('assets/auth/js/scripts.js') }}"></script>
+    <script src="{{ asset('assets/auth/js/libs/datatable-btns.js') }}"></script>
     <script src="{{ asset('assets/auth/js/charts/chart-ecommerce.js') }}"></script>
 </body>
 

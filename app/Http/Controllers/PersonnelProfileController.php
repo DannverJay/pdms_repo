@@ -8,6 +8,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Permission\Models\Role;
 
 class PersonnelProfileController extends Controller
 {
@@ -111,6 +113,17 @@ class PersonnelProfileController extends Controller
 
     $personnel->save();
 
+    $adminRole = Role::where('name', 'admin')->first();
+    $adminUser = $adminRole->users()->first();
+
+        // Save the activity log
+        $activity = new Activity();
+        $activity->log_name = $adminUser->name;
+        $activity->description = 'Updated the profile of ' . $personnel->first_name;
+        $activity->causer_id = $adminUser->id;
+        $activity->causer_type = 'App\Models\User';
+        $activity->save();
+
     return redirect()->route('view.profile', [$user_id, $personnel_id])
         ->with('success', 'Information has been successfully updated.');
 }
@@ -133,13 +146,25 @@ class PersonnelProfileController extends Controller
             'name' => 'required',
             'relationship' => 'required',
             'occupation' => 'required',
-            'employer' => 'required',
-            'business_address' => 'required'
+            'employer' => 'sometimes',
+            'business_address' => 'sometimes'
         ]);
 
         $familyBackground = new FamilyBackground($request->all());
         $familyBackground->personnel_id = $personnel->id;
         $familyBackground->save();
+
+
+        $adminRole = Role::where('name', 'admin')->first();
+        $adminUser = $adminRole->users()->first();
+
+        // Save the activity log
+        $activity = new Activity();
+        $activity->log_name = $adminUser->name;
+        $activity->description = 'Added a Family Member to ' . $personnel->first_name;
+        $activity->causer_id = $adminUser->id;
+        $activity->causer_type = 'App\Models\User';
+        $activity->save();
 
         return redirect()->route('view.profile', $personnel)
             ->with('success', 'Family background added successfully.');
@@ -158,6 +183,11 @@ class PersonnelProfileController extends Controller
     ]);
 
     $familyBackground->update($request->all());
+
+    $adminRole = Role::where('name', 'admin')->first();
+    $adminUser = $adminRole->users()->first();
+
+    
 
     return redirect()->route('view.profile', $familyBackground->personnel)
         ->with('success', 'Family background updated successfully.');

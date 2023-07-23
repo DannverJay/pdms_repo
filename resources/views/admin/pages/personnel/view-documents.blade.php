@@ -149,7 +149,7 @@
                                               <span>{{ $document->issued_date->format('Y') }}</span>
                                             </td>
                                             <td class="nk-tb-col tb-col-md">
-                                              <span>{{ $document->created_at->format('M d, Y') }}</span>
+                                              <span>{{ $document->updated_at->format('M d, Y') }}</span>
                                             </td>
                                             <td class="nk-tb-col nk-tb-col-tools">
                                               <div class="drodown">
@@ -158,6 +158,13 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                   <ul class="link-list-opt no-bdr">
+                                                    <li>
+                                                    
+                                                            <a href="#edit" data-bs-toggle="modal">
+                                                                <em class="icon ni ni-edit"></em><span>Edit</span>
+                                                            </a>
+
+                                                    </li>
                                                     <li>
                                                       <a href="{{ route('documents.preview', ['id' => $document->id]) }}" target="_blank">
                                                         <em class="icon ni ni-focus"></em><span>Preview</span>
@@ -188,7 +195,58 @@
                                       </table>
                                     </div>
                                 </div><!-- .card-preview -->
+                                @if ($showModal)
+                                    <div class="modal fade" tabindex="-1" id="edit">
+                                        <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                            <em class="icon ni ni-cross"></em>
+                                            </a>
+                                            <div class="modal-header">
+                                            <h5 class="modal-title">Edit Document</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                            <form method="POST" action="{{ route('documents.edit', ['id' => $document->id]) }}">
+                                                @csrf
+                                                @method('PUT')
 
+                                                <div class="form-group">
+                                                <label class="form-label">File Name</label>
+                                                <input type="text" class="form-control" name="file_name" value="{{ $document->file_name }}" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                <label class="form-label">Document Type</label>
+                                                <select class="form-select" name="document_type" required>
+                                                    <option value="">-- Select Document Type --</option>
+                                                    <option value="Personal Data Sheet"{{ $document->document_type === 'Personal Data Sheet' ? ' selected' : '' }}>Personal Data Sheet</option>
+                                                    <option value="Diploma/TOR"{{ $document->document_type === 'Diploma/TOR' ? ' selected' : '' }}>Diploma/TOR</option>
+                                                    <option value="Physical Fitness Test"{{ $document->document_type === 'Physical Fitness Test' ? ' selected' : '' }}>Physical Fitness Test</option>
+                                                    <option value="Trainings"{{ $document->document_type === 'Trainings' ? ' selected' : '' }}>Trainings</option>
+                                                    <option value="Specialized Trainings"{{ $document->document_type === 'Specialized Trainings' ? ' selected' : '' }}>Specialized Trainings</option>
+                                                    <option value="SALN"{{ $document->document_type === 'SALN' ? ' selected' : '' }}>SALN</option>
+                                                    <option value="KSS"{{ $document->document_type === 'KSS' ? ' selected' : '' }}>KSS</option>
+                                                    <option value="PER"{{ $document->document_type === 'PER' ? ' selected' : '' }}>PER</option>
+                                                    <option value="Reassignments"{{ $document->document_type === 'Reassignments' ? ' selected' : '' }}>Reassignments</option>
+                                                    <option value="Eligibility"{{ $document->document_type === 'Eligibility' ? ' selected' : '' }}>Eligibility</option>
+                                                    <!-- Add more options as needed -->
+                                                </select>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="form-label">Issued Date</label>
+                                                    <input type="date" class="form-control" name="issued_date" value="{{ $document->issued_date->format('Y-m-d') }}" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                <button type="submit" class="btn btn-primary">Update Document</button>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

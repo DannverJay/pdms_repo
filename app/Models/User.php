@@ -10,8 +10,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Personnel;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+
 
 class User extends Authenticatable
 {
@@ -20,7 +23,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $fillable = [
         'name',
@@ -31,40 +34,38 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-
-    protected $dates = [
-        'deleted_at'
-    ];
-
-    protected $expires = '1 year';
-
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
+        'expires_at' => 'datetime',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 
+    protected $dates = ['deleted_at', 'expires_at'];
 
     protected static function boot()
     {
         parent::boot();
 
-        if (!app()->runningInConsole()) {
-            static::created(function ($user) {
-                $user->createPersonnel();
-            });
-        }
+        static::created(function ($user) {
+            $user->createPersonnel();
+        });
+
+        static::deleting(function ($user) {
+            $user->expires_at = Carbon::now()->addYear();
+            $user->save();
+        });
     }
 
     public function createPersonnel()
@@ -89,5 +90,4 @@ class User extends Authenticatable
     {
         return $this->hasOne(Personnel::class);
     }
-
 }

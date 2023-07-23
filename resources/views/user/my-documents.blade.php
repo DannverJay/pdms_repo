@@ -59,6 +59,7 @@
                                         <div class="form-group">
                                             <input type="hidden" name="personnel_id" value="{{ Auth::user()->personnel->id }}">
                                         </div>
+                                        
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <button type="submit" class="btn btn-primary">Add Document</button>

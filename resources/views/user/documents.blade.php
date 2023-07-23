@@ -62,12 +62,114 @@ $uploadedDocumentsCount = count($documents);
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label" for="privacy_check">{{ __('Privacy Policy Notice') }}</label>
+                                                            </div>
+                                                            <div class="form-control-wrap">
+                                                                <label for="privacy_check" class="form-checkbox">
+                                                                    <input type="checkbox" class="custom-checkbox" id="privacy_check" name="privacy_check" required>
+                                                                    <span class="check-indicator"></span>
+                                                                    <span class="checkbox-text">{{ __('I agree') }}</span>
+                                                                    <br>
+                                                                    <span>By clicking "I Agree," I voluntarily give my consent to <a href="#Privacy" data-bs-toggle="modal">Prviacy Policy</a> of PDMS</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
                                                             <div class="col-sm-12">
                                                                 <button type="submit" class="btn btn-primary" onclick="return validateFileType()">Add Document</button>
                                                             </div>
                                                         </div>
                                                     </form>
 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Data Privacy Modal --}}
+                                     <div class="modal fade" tabindex="-1" id="Privacy">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                    <em class="icon ni ni-cross"></em>
+                                                </a>
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">PDMS Privacy Policy</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <span>At PDMS, we are committed to protecting the privacy and security of your personal information. This Data Privacy Policy explains how we collect, use, and safeguard the data you provide when uploading documents to our Personnel Document Management System (PDMS) in accordance with the Philippine Data Privacy Act of 2012 (Republic Act No. 10173).
+                                                        Please read this policy carefully to understand our practices regarding your personal data.</span>
+                                                    <br>
+                                                    <br>
+                                                    <p><strong>1. Information We Collect:</strong>
+                                                        <br>
+                                                        When you use the PDMS and upload documents, we may collect the following types of information:
+                                                        <ul>
+                                                            <li>Personal identification information (e.g., name, address, contact details)</li>
+                                                            <li>Document details (e.g., file name, date, document type)</li>
+                                                        </ul>
+                                                    </p>
+
+
+                                                    <br>
+                                                    <p><strong>2. Use of Collected Information:</strong>
+                                                        <br>
+                                                        We may use the information we collect from you for the following purposes:
+                                                        <ul>
+                                                            <li>To facilitate the uploading, storage, and retrieval of documents within the PDMS, ensuring compliance with lawful and legitimate processing purposes.</li>
+                                                            <li>To provide you with customer support and respond to your inquiries.</li>
+                                                            <li>To comply with legal obligations and regulatory requirements imposed by the Philippine Data Privacy Act of 2012.</li>
+                                                        </ul>
+                                                    </p>
+
+
+                                                    <br>
+                                                    <p><strong>3. Data Security:</strong>
+                                                        <br>
+                                                        We prioritize the security of your data and have implemented appropriate technical and organizational measures to protect it against unauthorized access, disclosure, alteration, or destruction, as required by the Philippine Data Privacy Act of 2012. However, please note that no method of transmission over the internet or electronic storage is completely secure, and we cannot guarantee absolute security.
+                                                    </p>
+
+
+                                                    <br>
+                                                    <p><strong>4. Data Sharing and Disclosure:</strong>
+                                                        <br>
+                                                        We may share your personal information in the following circumstances:
+                                                        <ul>
+                                                            <li>When required by law, regulation, or legal process to disclose the information, in compliance with the provisions of the Philippine Data Privacy Act of 2012.</li>
+                                                            <li>With trusted third-party service providers who assist us in operating the PDMS and providing services to you (subject to appropriate data protection agreements and compliance with the Philippine Data Privacy Act of 2012).</li>
+                                                        </ul>
+                                                    </p>
+
+                                                    <br>
+                                                    <p><strong>5. Data Retention:</strong>
+                                                        <br>
+                                                        We will retain your personal information for as long as necessary to fulfill the purposes outlined in this policy unless a longer retention period is required or permitted by law. Afterward, we will securely dispose of or anonymize your personal information in compliance with the provisions of the Philippine Data Privacy Act of 2012.
+                                                    </p>
+
+                                                    <br>
+                                                    <p><strong>6. Your Rights:</strong>
+                                                        <br>
+                                                        You have certain rights regarding your personal data, including:
+                                                        <ul>
+                                                            <li>The right to access, correct, or update your personal information in accordance with the provisions of the Philippine Data Privacy Act of 2012.</li>
+                                                            <li>The right to request the deletion of your personal information (subject to legal obligations) in accordance with the provisions of the Philippine Data Privacy Act of 2012.</li>
+                                                            <li>The right to restrict or object to the processing of your personal information in accordance with the provisions of the Philippine Data Privacy Act of 2012.</li>
+                                                            <li>The right to data portability (where applicable) in accordance with the provisions of the Philippine Data Privacy Act of 2012.</li>
+                                                        </ul>
+                                                    </p>
+
+
+                                                    <br>
+                                                    <p><strong>7. Updates to this Policy:</strong>
+                                                        <br>
+                                                        We reserve the right to update or modify this Data Privacy Policy from time to time to reflect changes in our practices or legal obligations. The revised policy will be effective when posted, and we encourage you to review it periodically.
+                                                    </p>
+
+                                                    <br>
+                                                    <p>
+                                                        By using the PDMS and uploading documents, you acknowledge that you have read and understood this Data Privacy Policy and consent to the collection, use, and processing of your personal information in accordance with this policy and the provisions of the Philippine Data Privacy Act of 2012.
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -226,7 +328,23 @@ $uploadedDocumentsCount = count($documents);
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var privacyCheck = document.getElementById('privacy_check');
+        var uploadButton = document.getElementById('uploadButton');
 
+        // Function to enable or disable the upload button based on the checkbox state
+        function toggleUploadButton() {
+            uploadButton.disabled = !privacyCheck.checked;
+        }
+
+        // Add event listener to the checkbox
+        privacyCheck.addEventListener('change', toggleUploadButton);
+
+        // Call the function initially to set the initial state of the upload button
+        toggleUploadButton();
+    });
+</script>
 <script>
     function validateFileType() {
         var fileInput = document.getElementById('file');

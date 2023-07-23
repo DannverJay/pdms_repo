@@ -123,7 +123,7 @@
                                         </div>
                                         <div class="form-control-wrap">
                                             <input type="email" class="form-control form-control-lg @error('email')
-                                            is-invalid @enderror" id="email" name="email" placeholder="Enter your email address or username" value="{{ old('email') }}" required autocomplete="off" autofocus>
+                                            is-invalid @enderror" id="email" name="email" placeholder="Enter your email address or username" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                         @error('email')
                                             <span class="invalid-feedback">
@@ -148,7 +148,7 @@
                                                 <em class="passcode-icon icon-show icon ni ni-eye"></em>
                                                 <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
                                             </a>
-                                            <input required autocomplete="off" type="password" class="form-control form-control-lg @error('password') is-invalid @enderror" id="password" name="password" placeholder="Enter your passcode">
+                                            <input required autocomplete="current-password" type="password" class="form-control form-control-lg @error('password') is-invalid @enderror" id="password" name="password" placeholder="Enter your passcode">
 
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">
@@ -157,11 +157,12 @@
                                             @enderror
                                         </div>
                                     </div><!-- .form-group -->
+                                   
                                     <div class="form-group">
                                         <button class="btn btn-lg btn-primary btn-block" type="submit">{{ __('Login') }}</button>
                                     </div>
                                 </form><!-- form -->
-                                {{-- <div class="form-note-s2 text-center pt-4"> <a class="link link-primary link-sm" tabindex="-1" href="html/pages/auths/auth-reset.html">Forgot your Password</a> --}}
+                                <div class="form-note-s2 text-center pt-4"> <a class="link link-primary link-sm" tabindex="-1" href="">Forgot your Password</a>
                                 </div>
                             </div>
                         </div>

@@ -9,10 +9,15 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
+
 class DashboardController extends Controller
 {
     public function dashboard()
     {
+
+        // FOR activity log
+
         //Demographics
         $totalUsers = User::count();
         $totalDocuments = Document::count();

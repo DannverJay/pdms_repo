@@ -22,8 +22,6 @@
                                         <em class="icon ni ni-plus"></em>
                                         <span>Add User</span>
                                       </button>
-
-
                                 </li>
                             </ul>
                         </div>
@@ -44,7 +42,7 @@
                         {{ session('error') }}
                     </div>
                 @endif
-                <table id="userTable" class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+                <table id="userTable" class="datatable-init-export nowrap table" data-export-title="Export" data-auto-responsive="false">
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
                             <th class="nk-tb-col"><span class="sub-text">User</span></th>
@@ -62,6 +60,7 @@
                             <tr class="nk-tb-item">
 
                                 <td class="nk-tb-col">
+
                                     <div class="user-card">
                                         <div class="user-avatar {{ 'bg-' . collect(['primary', 'secondary', 'success', 'danger', 'warning', 'info'])->random() }} d-none d-sm-flex">
                                             <span>{{ strtoupper(substr($user->name, 0, 1)) }}</span>
@@ -106,8 +105,8 @@
                                                         <li><a href="{{ route('users.show', $user) }}"><span>View Profile</span></a></li>
                                                         <li><a href="{{ route('users.edit', $user->id) }}"><span>Account Details</span></a></li>
                                                         <li>
-                                                            <a  onclick="event.preventDefault(); if(confirm('Are you sure you want to archive this user?')) { document.getElementById('delete-form-{{ $user->id }}').submit(); }">
-                                                                <span>Archive User</span>
+                                                            <a  onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this user?')) { document.getElementById('delete-form-{{ $user->id }}').submit(); }">
+                                                                <span>Archive</span>
                                                             </a>
                                                             <form id="delete-form-{{ $user->id }}" action="{{ route('users.delete', ['id' => $user->id]) }}" method="POST" style="display: none;">
                                                                 @csrf
@@ -180,7 +179,7 @@
       var hasLowerCase = /[a-z]/.test(password);
 
       if (!hasUpperCase || !hasLowerCase) {
-        this.setCustomValidity("Password must contain at least one uppercase letter and one lowercase letter.");
+        this.setCustomValidity("Password must have a minimum 8 characters and must contain at least one uppercase letter and one lowercase letter.");
       } else {
         this.setCustomValidity("");
       }

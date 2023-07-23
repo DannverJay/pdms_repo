@@ -171,6 +171,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/personnel-profile/documents/delete/{id}', [PersonnelController::class, 'deleteDocument'])->name('documents.delete');
         Route::get('/personnel-profile/documents/{id}/download', [PersonnelController::class, 'downloadDocument'])->name('documents.download');
         Route::get('/personnel-profile/documents/{id}/preview', [PersonnelController::class, 'previewDocument'])->name('documents.preview');
+        Route::put('/personnel-profile/documents/{id}', [PersonnelController::class, 'edit'])->name('documents.edit');
 
 
 
@@ -180,22 +181,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/documents/{id}/download', [DocumentController::class, 'download'])->name('documents.download');
         Route::get('/documents/{id}/preview', [DocumentController::class, 'preview'])->name('documents.preview');
         Route::delete('/documents/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
-
-
         //User Management
         Route::get('/user-listing', [UserController::class, 'showUser'])->name('user.lists');
         Route::get('/users-manage/{user}/view-profile', [UserController::class, 'show'])->name('users.show');
-        //User Management - show archived Users
-        Route::get('users/archived', [UserController::class, 'archive'])->name('users.archive-list');
-        //User Management - Restore Archived Users
-        Route::get('users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
+
         //User management - Add User
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
-        //User Management - Archive Users
         Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.delete');
+        Route::get('users/archive-users', [UserController::class, 'archive'])->name('users.archive');
         //User Management - edit user
         Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::get('users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
 
 
         //SMS
@@ -235,6 +232,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user-guide/regular-users/my-profile', [SupportController::class, 'myProfile'])->name('support.reg-guide.profile');
     Route::get('/user-guide/regular-users/my-documents', [SupportController::class, 'myDocuments'])->name('support.reg-guide.documents');
     Route::get('/user-guide/regular-users/change-account-details', [SupportController::class, 'changeDetails'])->name('support.reg-guide.account');
+
+    Route::get('/activity-logs', [SupportController::class, 'activityLogs'])->name('support.activty-log');
 
 });
 
